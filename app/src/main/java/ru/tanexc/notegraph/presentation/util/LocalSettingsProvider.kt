@@ -1,0 +1,6 @@
+package ru.tanexc.notegraph.presentation.util
+
+import androidx.compose.runtime.compositionLocalOf
+import ru.tanexc.notegraph.domain.model.Settings
+
+val LocalSettingsProvider = compositionLocalOf<Settings> { error("Settings not presented") }

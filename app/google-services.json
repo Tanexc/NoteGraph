@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "113690064289",
+    "project_id": "notegraph-89195",
+    "storage_bucket": "notegraph-89195.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:113690064289:android:a98c5043eb59aba04a87e0",
+        "android_client_info": {
+          "package_name": "ru.tanexc.notegraph"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "113690064289-2je91sm4pkil5fql83k765k0sk2eibo6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVzuuJLg8oCKUChdJUx50Lwz4zhpkvLVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "113690064289-2je91sm4pkil5fql83k765k0sk2eibo6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

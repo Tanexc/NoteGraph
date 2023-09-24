@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NoteGraph</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="enter">Sign in</string>
+    <string name="forgot_password">Forgot password?</string>
+</resources>
