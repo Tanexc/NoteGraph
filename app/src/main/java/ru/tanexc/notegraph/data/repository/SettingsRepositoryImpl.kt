@@ -1,12 +1,10 @@
 package ru.tanexc.notegraph.data.repository
 
-import android.content.Context
 import androidx.compose.ui.graphics.Color
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.t8rin.dynamic.theme.ColorTuple
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -21,8 +19,7 @@ import ru.tanexc.notegraph.presentation.ui.theme.defaultDarkColorTuple
 import javax.inject.Inject
 
 class SettingsRepositoryImpl @Inject constructor(
-    private val dataStore: DataStore<Preferences>,
-    @ApplicationContext private val context: Context
+    private val dataStore: DataStore<Preferences>
 ) : SettingsRepository {
     override fun getSettingsAsFlow(): Flow<Settings> = dataStore.data.map { pref ->
         Settings(
