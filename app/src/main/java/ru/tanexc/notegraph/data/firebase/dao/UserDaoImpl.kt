@@ -21,8 +21,13 @@ class UserDaoImpl @Inject constructor(
             .await()
     }
 
-    override suspend fun getLocal(uid: String): User? = collection
-        .whereEqualTo("uid", uid)
+    override fun signOut() {
+        collection
+            .firestore
+            .clearPersistence()
+    }
+
+    override suspend fun getLocal(): User? = collection
         .get(Source.CACHE)
         .await()
         .toObjects<User>().firstOrNull()

@@ -1,8 +1,11 @@
 package ru.tanexc.notegraph.domain.interfaces.repository
 
+import kotlinx.coroutines.flow.Flow
+import ru.tanexc.notegraph.domain.model.User
+
 interface AuthRepository {
 
-    val userId: String
+    val userFlow: Flow<User?>
 
     suspend fun authByEmail(email: String, password: String)
 
