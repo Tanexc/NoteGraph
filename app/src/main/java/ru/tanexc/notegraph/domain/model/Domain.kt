@@ -1,4 +1,4 @@
-package ru.tanexc.notegraph.domain.interfaces.domain
+package ru.tanexc.notegraph.domain.model
 
 interface Domain {
     fun asMap(): Map<String, Any>

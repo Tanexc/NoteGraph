@@ -20,11 +20,9 @@ class MainActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-
-
         setContent {
             CompositionLocalProvider {
-                TODO("LocalSettingsProvider")
+                LocalSettingsProvider provides viewModel.settings
             }
 
             NoteGraphApp(viewModel)

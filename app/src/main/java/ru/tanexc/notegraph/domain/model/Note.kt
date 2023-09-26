@@ -1,7 +1,5 @@
 package ru.tanexc.notegraph.domain.model
 
-import ru.tanexc.notegraph.domain.interfaces.domain.Domain
-
 data class Note(
     val documentId: String,
     val label: String,

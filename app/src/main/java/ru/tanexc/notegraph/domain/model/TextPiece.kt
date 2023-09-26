@@ -6,7 +6,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import ru.tanexc.notegraph.domain.interfaces.domain.Domain
 
 data class TextPiece(
     val documentId: String,
