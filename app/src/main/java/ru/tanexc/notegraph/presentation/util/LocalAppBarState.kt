@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,16 +17,18 @@ class AppBarState {
     val params: AppBarParams by _currentAppBarParams
 
     fun updateTopAppBar(
-        title: (@Composable () -> Unit) = params.title,
-        navigationIcon: (@Composable () -> Unit) = params.navigationIcon,
-        actions: (@Composable (RowScope) -> Unit) = params.actions,
-        visible: Boolean = params.visible
+        title: (@Composable () -> Unit) = {  },
+        navigationIcon: (@Composable () -> Unit) = {  },
+        actions: (@Composable (RowScope) -> Unit) = {  },
+        visible: Boolean = params.visible,
+        borderEnabled: Boolean = params.borderEnabled
     ) {
         _currentAppBarParams.value = _currentAppBarParams.value.copy(
             title = title,
             navigationIcon = navigationIcon,
             actions = actions,
-            visible = visible
+            visible = visible,
+            borderEnabled = borderEnabled
         )
     }
 }
@@ -42,7 +45,7 @@ data class AppBarParams(
             title = { Text(stringResource(R.string.app_name)) },
             navigationIcon = {},
             actions = {},
-            visible = false,
+            visible = true,
             borderEnabled = true
         )
     }
@@ -52,5 +55,14 @@ val LocalAppBarState = compositionLocalOf { AppBarState() }
 
 @Composable
 fun rememberAppBarState(
-    topAppBarParams: AppBarParams = AppBarParams.default()
-) = remember { LocalAppBarState }
+    topAppBarParams: AppBarParams = LocalAppBarState.current.params
+): ProvidableCompositionLocal<AppBarState> {
+    LocalAppBarState.current.updateTopAppBar(
+        topAppBarParams.title,
+        topAppBarParams.navigationIcon,
+        topAppBarParams.actions,
+        topAppBarParams.visible,
+        topAppBarParams.borderEnabled
+    )
+    return remember { LocalAppBarState }
+}

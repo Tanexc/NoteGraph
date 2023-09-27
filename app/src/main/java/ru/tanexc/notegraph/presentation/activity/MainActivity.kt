@@ -5,7 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tanexc.notegraph.presentation.screen.main.MainViewModel
 import ru.tanexc.notegraph.presentation.screen.main.NoteGraphApp
@@ -21,11 +23,15 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            CompositionLocalProvider {
+            CompositionLocalProvider(
                 LocalSettingsProvider provides viewModel.settings
+            ) {
+                rememberSystemUiController().setSystemBarsColor(
+                    Color.Transparent,
+                    isNavigationBarContrastEnforced = false
+                )
+                NoteGraphApp(viewModel)
             }
-
-            NoteGraphApp(viewModel)
         }
     }
 }

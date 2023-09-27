@@ -27,24 +27,26 @@ fun TopAppBar(
     topAppBarState: AppBarState,
     outlineColor: Color = Color.Transparent
 ) {
-    CenterAlignedTopAppBar(
-        topAppBarState.params.title,
-        if (topAppBarState.params.borderEnabled) {
-            modifier.drawWithContent {
-                drawContent()
-                drawRect(
-                    color = outlineColor,
-                    topLeft = Offset(0f, this.size.height),
-                    size = Size(this.size.width, density)
-                )
-            }
-        } else {
-            modifier.softLayerShadow(spread = 2.dp, offset = DpOffset(2.dp, 0.dp))
-        },
-        topAppBarState.params.navigationIcon,
-        topAppBarState.params.actions,
-        windowInsets,
-        colors,
-        scrollBehavior
-    )
+    if (topAppBarState.params.visible) {
+        CenterAlignedTopAppBar(
+            topAppBarState.params.title,
+            if (topAppBarState.params.borderEnabled) {
+                modifier.drawWithContent {
+                    drawContent()
+                    drawRect(
+                        color = outlineColor,
+                        topLeft = Offset(0f, this.size.height),
+                        size = Size(this.size.width, density)
+                    )
+                }
+            } else {
+                modifier.softLayerShadow(spread = 2.dp, offset = DpOffset(2.dp, 0.dp))
+            },
+            topAppBarState.params.navigationIcon,
+            topAppBarState.params.actions,
+            windowInsets,
+            colors,
+            scrollBehavior
+        )
+    }
 }
