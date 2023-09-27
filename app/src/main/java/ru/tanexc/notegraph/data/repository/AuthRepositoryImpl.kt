@@ -53,8 +53,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun signUp(email: String, password: String, name: String) {
-        val credential = EmailAuthProvider.getCredential(email, password)
-        val user: FirebaseUser? = auth.currentUser!!.linkWithCredential(credential).await().user
+        val user: FirebaseUser? = auth.createUserWithEmailAndPassword(email, password).await().user
         user?.let {
             userDao.create(
                 User(

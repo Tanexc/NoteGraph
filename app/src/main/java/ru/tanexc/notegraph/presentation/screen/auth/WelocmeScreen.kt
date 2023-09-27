@@ -10,15 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.filled.NoAccounts
 import androidx.compose.material.icons.outlined.HowToReg
-import androidx.compose.material.icons.outlined.Login
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Button
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -30,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tanexc.notegraph.R
+import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 
 @Composable
 fun WelocmeScreen(
@@ -38,7 +34,6 @@ fun WelocmeScreen(
     onSignIn: () -> Unit,
     onAuthAsGuest: () -> Unit
 ) {
-
     Box(Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier

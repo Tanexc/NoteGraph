@@ -16,9 +16,9 @@ class UserDaoImpl @Inject constructor(
     private val collection: CollectionReference = fireStore.collection("user")
 
     override suspend fun create(user: User) {
-        collection
-            .add(user)
-            .await()
+        val userDocument = collection
+            .document()
+        userDocument.set(user.copy(documentId = userDocument.id))
     }
 
     override fun signOut() {

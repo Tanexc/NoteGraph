@@ -9,31 +9,36 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.tanexc.notegraph.domain.interfaces.repository.AuthRepository
+import ru.tanexc.notegraph.domain.interfaces.use_cases.user.AuthAsGuestUseCase
+import ru.tanexc.notegraph.domain.interfaces.use_cases.user.AuthByEmailUseCase
+import ru.tanexc.notegraph.domain.interfaces.use_cases.user.SignUpUserUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authAsGuestUseCase: AuthAsGuestUseCase,
+    private val authByEmailUseCase: AuthByEmailUseCase,
+    private val signUpUserUseCase: SignUpUserUseCase
 ): ViewModel() {
-    private val _login: MutableState<String> = mutableStateOf("")
-    val login: String by _login
 
-    private val _password: MutableState<String> = mutableStateOf("")
-    val password: String by _password
-
-    fun updateLogin(value: String) {
-        _login.value = value
-    }
-
-    fun updatePassword(value: String) {
-        _password.value = value
-    }
-
-    fun signIn() {
+    fun signIn(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            authRepository.authByEmail(login, password)
+            authByEmailUseCase(email, password)
         }
     }
+
+    fun signUp(email: String, password: String, name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            signUpUserUseCase(email, password, name)
+        }
+    }
+
+    fun signInAsGuest() {
+        viewModelScope.launch(Dispatchers.IO) {
+            authAsGuestUseCase()
+        }
+    }
+
 
 
 }
