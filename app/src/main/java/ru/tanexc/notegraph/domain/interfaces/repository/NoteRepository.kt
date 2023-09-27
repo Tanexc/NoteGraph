@@ -6,9 +6,11 @@ import ru.tanexc.notegraph.domain.model.Note
 
 interface NoteRepository {
 
+    val notesFlow: Flow<List<Note>>
+
     suspend fun getByUserId(value: String): Flow<Action<List<Note>>>
 
-    suspend fun getById(value: String): Flow<Action<Note>>
+    suspend fun getById(value: String): Flow<Action<Note?>>
 
     suspend fun save(value: Note): Flow<Action<Unit>>
 

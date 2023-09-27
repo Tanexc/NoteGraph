@@ -1,6 +1,7 @@
 package ru.tanexc.notegraph.data.repository
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import ru.tanexc.notegraph.core.util.Action
 import ru.tanexc.notegraph.domain.interfaces.dao.NoteDao
@@ -11,6 +12,10 @@ import javax.inject.Inject
 class NoteRepositoryImpl @Inject constructor(
     private val noteDao: NoteDao
 ): NoteRepository {
+
+    override val notesFlow: Flow<List<Note>>
+        get() = noteDao.getNotesFlow()
+
     override suspend fun getByUserId(value: String): Flow<Action<List<Note>>> = flow {
         emit(Action.Loading(emptyList()))
         runCatching {
@@ -21,7 +26,7 @@ class NoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getById(value: String): Flow<Action<Note>> = flow {
+    override suspend fun getById(value: String): Flow<Action<Note?>> = flow {
         emit(Action.Loading(Note.Empty()))
         runCatching {
             val data = noteDao.getById(value)
