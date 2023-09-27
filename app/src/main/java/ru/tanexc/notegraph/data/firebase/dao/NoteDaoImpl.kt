@@ -26,10 +26,32 @@ class NoteDaoImpl @Inject constructor(
         .await()
         .toObjects()
 
+    override suspend fun getById(documentId: String): Note = collection
+        .whereEqualTo("documentId", documentId)
+        .get()
+        .await()
+        .toObjects<Note>()
+        .first()
+
+
     override suspend fun update(note: Note) {
         collection
             .document(note.documentId)
             .update(note.asMap())
+            .await()
+    }
+
+    override suspend fun save(note: Note) {
+        collection
+            .document(note.documentId)
+            .set(note)
+            .await()
+    }
+
+    override suspend fun delete(note: Note) {
+        collection
+            .document(note.documentId)
+            .delete()
             .await()
     }
 

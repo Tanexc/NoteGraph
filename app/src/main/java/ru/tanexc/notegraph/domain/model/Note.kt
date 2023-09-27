@@ -8,6 +8,18 @@ data class Note(
     val dependsOn: String,
     val endTo: Long = 0L
 ): Domain {
+
+    companion object {
+        fun Empty() = Note(
+            documentId = "",
+            label = "",
+            imagePieces = emptyList(),
+            textPieces = emptyList(),
+            dependsOn = "",
+            endTo = 0
+        )
+    }
+
     override fun asMap(): Map<String, Any> = mapOf(
         "documentId" to documentId,
         "label" to label,

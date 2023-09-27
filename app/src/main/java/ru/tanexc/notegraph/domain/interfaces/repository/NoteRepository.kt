@@ -6,14 +6,14 @@ import ru.tanexc.notegraph.domain.model.Note
 
 interface NoteRepository {
 
-    suspend fun getByUserId(value: String): Flow<Action<Note>>
+    suspend fun getByUserId(value: String): Flow<Action<List<Note>>>
 
-    suspend fun getById(value: Long): Flow<Action<Note>>
+    suspend fun getById(value: String): Flow<Action<Note>>
 
-    suspend fun save(value: Note): Flow<Action<Note>>
+    suspend fun save(value: Note): Flow<Action<Unit>>
 
-    suspend fun delete(value: Note): Flow<Action<Note>>
+    suspend fun delete(value: Note): Flow<Action<Unit>>
 
-    suspend fun update(value: Note): Flow<Action<Note>>
+    suspend fun update(value: Note): Flow<Action<Unit>>
 
 }
