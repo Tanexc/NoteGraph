@@ -13,13 +13,16 @@ import javax.inject.Inject
 class NoteDaoImpl @Inject constructor(
     private val fireStore: FirebaseFirestore,
     private val auth: FirebaseAuth
-): NoteDao {
+) : NoteDao {
     override suspend fun create(note: Note) {
-        fireStore
+        val noteDocument = fireStore
             .collection("user")
-            .document(auth.uid?:"")
+            .document(auth.uid ?: "")
             .collection("notes")
-            .add(note)
+            .document()
+
+        noteDocument
+            .set(note.copy(documentId = noteDocument.id))
             .await()
     }
 
@@ -33,7 +36,7 @@ class NoteDaoImpl @Inject constructor(
 
     override suspend fun getById(documentId: String): Note? = fireStore
         .collection("user")
-        .document(auth.uid?:"")
+        .document(auth.uid ?: "")
         .collection("notes")
         .whereEqualTo("documentId", documentId)
         .get()
@@ -42,11 +45,10 @@ class NoteDaoImpl @Inject constructor(
         .firstOrNull()
 
 
-
     override suspend fun update(note: Note) {
         fireStore
             .collection("user")
-            .document(auth.uid?:"")
+            .document(auth.uid ?: "")
             .collection("notes")
             .document(note.documentId)
             .update(note.asMap())
@@ -56,7 +58,7 @@ class NoteDaoImpl @Inject constructor(
     override suspend fun save(note: Note) {
         fireStore
             .collection("user")
-            .document(auth.uid?:"")
+            .document(auth.uid ?: "")
             .collection("notes")
             .document(note.documentId)
             .set(note)
@@ -66,7 +68,7 @@ class NoteDaoImpl @Inject constructor(
     override suspend fun delete(note: Note) {
         fireStore
             .collection("user")
-            .document(auth.uid?:"")
+            .document(auth.uid ?: "")
             .collection("notes")
             .document(note.documentId)
             .delete()
@@ -76,10 +78,10 @@ class NoteDaoImpl @Inject constructor(
     override fun getNotesFlow(): Flow<List<Note>> = callbackFlow {
         fireStore
             .collection("user")
-            .document(auth.uid?:"")
+            .document(auth.uid ?: "")
             .collection("notes")
             .addSnapshotListener { value, error ->
-                trySend(value?.toObjects()?: emptyList())
+                trySend(value?.toObjects() ?: emptyList())
             }
     }
 

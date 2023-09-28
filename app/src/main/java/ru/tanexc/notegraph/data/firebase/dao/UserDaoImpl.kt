@@ -12,7 +12,6 @@ import javax.inject.Inject
 class UserDaoImpl @Inject constructor(
     private val fireStore: FirebaseFirestore
 ) : UserDao {
-
     private val collection: CollectionReference = fireStore.collection("user")
 
     override suspend fun create(user: User) {
@@ -33,7 +32,7 @@ class UserDaoImpl @Inject constructor(
         .toObjects<User>().firstOrNull()
 
     override suspend fun getRemote(uid: String): User? = collection
-        .whereEqualTo("uid", uid)
+        .whereEqualTo("documentId", uid)
         .get(Source.SERVER)
         .await()
         .toObjects<User>().firstOrNull()
