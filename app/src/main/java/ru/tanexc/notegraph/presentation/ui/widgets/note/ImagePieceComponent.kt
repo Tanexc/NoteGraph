@@ -10,17 +10,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.t8rin.dynamic.theme.calculateTertiaryColor
-import ru.tanexc.notegraph.domain.model.TextPiece
+import ru.tanexc.notegraph.R
+import ru.tanexc.notegraph.domain.model.ImagePiece
 
 @Composable
-fun TextPieceComponent(
+fun ImagePieceComponent(
     modifier: Modifier = Modifier,
     onOffsetChange: ((IntOffset) -> Unit)?,
     focused: Boolean,
-    piece: TextPiece,
+    piece: ImagePiece,
     indicationColor: Color
 ) {
 
@@ -41,10 +42,13 @@ fun TextPieceComponent(
             modifier.size(piece.size.width.dp, piece.size.height.dp)
         ) {
             Text(
-                piece.text,
+                piece.label?: stringResource(R.string.untitled),
                 style = piece.textStyle,
-                modifier = Modifier.fillMaxSize().padding(16.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
             )
+            TODO("edit imagePiece component")
         }
     }
 }

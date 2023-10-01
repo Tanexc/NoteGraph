@@ -5,12 +5,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
 data class TextPiece(
     val documentId: String,
     val offset: IntOffset,
-    val size: DpSize = DpSize(164.dp, 64.dp),
+    val size: IntSize = IntSize(164, 64),
     val background: Color = Color.Transparent,
     val cornerRadius: Dp = 0.dp,
     val text: String,

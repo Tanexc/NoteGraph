@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.IntSize
 
 // АРБУС!!
 
-class ImagePiece(
+data class ImagePiece(
     val documentId: String,
     val offset: IntOffset,
     val size: IntSize,
