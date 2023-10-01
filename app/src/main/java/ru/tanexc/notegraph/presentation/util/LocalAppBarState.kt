@@ -34,11 +34,11 @@ class AppBarState {
 }
 
 data class AppBarParams(
-    val title: @Composable () -> Unit,
-    val navigationIcon: @Composable () -> Unit,
-    val actions: @Composable (RowScope) -> Unit,
-    val visible: Boolean,
-    val borderEnabled: Boolean
+    val title: @Composable () -> Unit = {},
+    val navigationIcon: @Composable () -> Unit = {},
+    val actions: @Composable (RowScope) -> Unit = {},
+    val visible: Boolean = true,
+    val borderEnabled: Boolean = true
 ) {
     companion object {
         fun default() = AppBarParams(
