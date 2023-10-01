@@ -12,5 +12,5 @@ interface UserDao {
 
     suspend fun update(user: User)
 
-    fun signOut()
+    suspend fun signOut()
 }
