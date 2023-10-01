@@ -15,7 +15,7 @@ data class TextPiece(
     val cornerRadius: Dp = 0.dp,
     val text: String,
     val textStyle: TextStyle
-): Domain {
+): Domain, NotePiece {
     override fun asMap(): Map<String, Any> {
         TODO("Not yet implemented")
     }

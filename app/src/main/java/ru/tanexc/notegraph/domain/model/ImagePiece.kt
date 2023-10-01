@@ -17,9 +17,8 @@ class ImagePiece(
     val contentDescription: String?,
     val textStyle: TextStyle,
     val imageBitmap: ImageBitmap
-): Domain {
+): Domain, NotePiece {
     override fun asMap(): Map<String, Any> {
         TODO("Not yet implemented")
     }
-
 }
