@@ -6,8 +6,8 @@ import ru.tanexc.notegraph.domain.interfaces.repository.NoteRepository
 import ru.tanexc.notegraph.domain.model.Note
 import javax.inject.Inject
 
-class GetByUserIdUseCase @Inject constructor(
+class GetByUserUseCase @Inject constructor(
     private val repository: NoteRepository
 ) {
-    suspend operator fun invoke(uid: String): Flow<Action<List<Note>>> = repository.getByUserId(uid)
+    suspend operator fun invoke(): Flow<Action<List<Note>>> = repository.getByUser()
 }
