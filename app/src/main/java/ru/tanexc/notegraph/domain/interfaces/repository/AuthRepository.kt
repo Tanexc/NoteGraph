@@ -7,6 +7,8 @@ interface AuthRepository {
 
     val userFlow: Flow<User?>
 
+    suspend fun tryGetLocalUser(): User?
+
     suspend fun authByEmail(email: String, password: String)
 
     suspend fun authAsGuest()
