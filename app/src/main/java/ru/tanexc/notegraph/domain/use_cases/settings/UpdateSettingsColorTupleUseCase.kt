@@ -1,4 +1,4 @@
-package ru.tanexc.notegraph.domain.interfaces.use_cases.settings
+package ru.tanexc.notegraph.domain.use_cases.settings
 
 import com.t8rin.dynamic.theme.ColorTuple
 import ru.tanexc.notegraph.domain.interfaces.repository.SettingsRepository
