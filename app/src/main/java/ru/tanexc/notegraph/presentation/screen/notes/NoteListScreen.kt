@@ -44,37 +44,36 @@ fun NoteListScreen(
     topAppBarState.current.updateTopAppBar(
         title = { Text(stringResource(R.string.notes)) },
 
-    )
+        )
 
     Box(modifier.fillMaxSize()) {
+        when (viewModel.loading) {
+            true -> viewModel.noteList?.let {
+                LazyColumn(Modifier.fillMaxSize()) {
+                    items(viewModel.noteList ?: emptyList()) {
+                        Spacer(modifier = Modifier.size(16.dp))
+                        ItemCard(
+                            modifier = Modifier.clickable { onOpenNote(it) },
+                            borderEnabled = LocalSettingsProvider.current.bordersEnabled,
+                            borderColor = colorScheme.outline,
+                            backgroundColor = colorScheme.secondary
+                        ) {
 
-        when (viewModel.noteList) {
-            null -> {
-                Text(stringResource(R.string.error_loading), modifier = Modifier.align(Alignment.Center))
-            }
+                            Text(it.label, modifier = Modifier.align(Alignment.Center))
 
-            else -> {
-                viewModel.noteList?.let {
-                    LazyColumn(Modifier.fillMaxSize()) {
-                        items(viewModel.noteList?: emptyList()) {
-                            Spacer(modifier = Modifier.size(16.dp))
-                            ItemCard(
-                                modifier = Modifier.clickable { onOpenNote(it) },
-                                borderEnabled = LocalSettingsProvider.current.bordersEnabled,
-                                borderColor = colorScheme.outline,
-                                backgroundColor = colorScheme.secondary
-                            ) {
-                                
-                                Text(it.label, modifier = Modifier.align(Alignment.Center))
-
-                            }
                         }
                     }
-                }?: CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
+                }
+            } ?: Text(
+                stringResource(R.string.error_loading),
+                modifier = Modifier.align(Alignment.Center)
+            )
+
+            false -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
+
     }
-    
+
     FloatingActionButton(
         onClick = { onOpenNote(Note.Empty()) }
     ) {
