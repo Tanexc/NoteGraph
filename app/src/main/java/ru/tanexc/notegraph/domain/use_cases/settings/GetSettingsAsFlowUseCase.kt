@@ -1,4 +1,4 @@
-package ru.tanexc.notegraph.domain.interfaces.use_cases.settings
+package ru.tanexc.notegraph.domain.use_cases.settings
 
 import kotlinx.coroutines.flow.Flow
 import ru.tanexc.notegraph.domain.interfaces.repository.SettingsRepository

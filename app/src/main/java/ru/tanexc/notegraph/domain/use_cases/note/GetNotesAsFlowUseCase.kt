@@ -1,4 +1,4 @@
-package ru.tanexc.notegraph.domain.interfaces.use_cases.note
+package ru.tanexc.notegraph.domain.use_cases.note
 
 import kotlinx.coroutines.flow.Flow
 import ru.tanexc.notegraph.domain.interfaces.repository.NoteRepository
