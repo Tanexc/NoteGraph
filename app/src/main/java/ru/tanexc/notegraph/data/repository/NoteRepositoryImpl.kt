@@ -16,10 +16,10 @@ class NoteRepositoryImpl @Inject constructor(
     override val notesFlow: Flow<List<Note>>
         get() = noteDao.getNotesFlow()
 
-    override suspend fun getByUserId(value: String): Flow<Action<List<Note>>> = flow {
+    override suspend fun getByUser(): Flow<Action<List<Note>>> = flow {
         emit(Action.Loading(emptyList()))
         runCatching {
-            val data = noteDao.getByUser(value)
+            val data = noteDao.getByUser()
             emit(Action.Success(data))
         }.onFailure { exception ->
             emit(Action.Error(emptyList(), messsage = exception.message))

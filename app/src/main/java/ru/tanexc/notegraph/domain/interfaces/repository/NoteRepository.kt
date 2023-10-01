@@ -8,7 +8,7 @@ interface NoteRepository {
 
     val notesFlow: Flow<List<Note>>
 
-    suspend fun getByUserId(value: String): Flow<Action<List<Note>>>
+    suspend fun getByUser(): Flow<Action<List<Note>>>
 
     suspend fun getById(value: String): Flow<Action<Note?>>
 

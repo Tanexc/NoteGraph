@@ -26,9 +26,9 @@ class NoteDaoImpl @Inject constructor(
             .await()
     }
 
-    override suspend fun getByUser(uid: String): List<Note> = fireStore
+    override suspend fun getByUser(): List<Note> = fireStore
         .collection("user")
-        .document(uid)
+        .document(auth.uid ?: "")
         .collection("notes")
         .get()
         .await()

@@ -33,7 +33,7 @@ fun TopAppBar(
 
     if (currentTopAppBarState.params.visible) {
         CenterAlignedTopAppBar(
-            currentTopAppBarState.params.title,
+            title = currentTopAppBarState.params.title,
             if (currentTopAppBarState.params.borderEnabled) {
                 modifier.drawWithContent {
                     drawContent()
@@ -46,8 +46,8 @@ fun TopAppBar(
             } else {
                 modifier.softLayerShadow(spread = 2.dp, offset = DpOffset(2.dp, 0.dp))
             },
-            currentTopAppBarState.params.navigationIcon,
-            currentTopAppBarState.params.actions,
+            navigationIcon = currentTopAppBarState.params.navigationIcon,
+            actions = currentTopAppBarState.params.actions,
             windowInsets,
             colors,
             scrollBehavior

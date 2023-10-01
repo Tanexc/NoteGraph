@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.tanexc.notegraph.domain.model.Note
 import ru.tanexc.notegraph.domain.model.ImagePiece
+import ru.tanexc.notegraph.domain.model.NotePiece
+import ru.tanexc.notegraph.domain.model.TextPiece
 import javax.inject.Inject
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(): ViewModel() {
     private val _focusedPiece: MutableState<ImagePiece?> = mutableStateOf(null)
-    val focusedPiece: ImagePiece? by _focusedPiece
+    val focusedPiece: NotePiece? by _focusedPiece
 
     private val _note: MutableState<Note?> = mutableStateOf(null)
     val note: Note? by _note
@@ -21,7 +23,11 @@ class NoteViewModel @Inject constructor(): ViewModel() {
         _focusedPiece.value = value
     }
 
-    suspend fun updateNote(value: Note) {
+    fun updateTextPieces(value: List<TextPiece>) {
+
+    }
+
+    fun updateImagePieces(value: List<ImagePiece>) {
 
     }
 

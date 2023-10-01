@@ -17,9 +17,9 @@ class AppBarState {
     val params: AppBarParams by _currentAppBarParams
 
     fun updateTopAppBar(
-        title: (@Composable () -> Unit) = {  },
-        navigationIcon: (@Composable () -> Unit) = {  },
-        actions: (@Composable (RowScope) -> Unit) = {  },
+        title: (@Composable () -> Unit) = params.title,
+        navigationIcon: (@Composable () -> Unit) = params.navigationIcon,
+        actions: @Composable() (RowScope.() -> Unit) = params.actions,
         visible: Boolean = params.visible,
         borderEnabled: Boolean = params.borderEnabled
     ) {
@@ -36,7 +36,7 @@ class AppBarState {
 data class AppBarParams(
     val title: @Composable () -> Unit = {},
     val navigationIcon: @Composable () -> Unit = {},
-    val actions: @Composable (RowScope) -> Unit = {},
+    val actions: @Composable() (RowScope.() -> Unit) = {},
     val visible: Boolean = true,
     val borderEnabled: Boolean = true
 ) {
