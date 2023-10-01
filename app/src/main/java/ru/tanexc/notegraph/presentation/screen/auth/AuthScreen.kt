@@ -16,7 +16,7 @@ import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tanexc.notegraph.R
-import ru.tanexc.notegraph.presentation.util.AuthOption
+import ru.tanexc.notegraph.core.util.AuthOption
 import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
 import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 
@@ -32,12 +32,11 @@ fun AuthScreen(
         colorTuple = dynamicThemeState.colorTuple.value,
     )
     var authOption: AuthOption by remember { mutableStateOf(AuthOption.WELCOME) }
-
     val topAppBarState = rememberAppBarState()
 
     when (authOption) {
         AuthOption.WELCOME -> {
-            topAppBarState.current.updateTopAppBar(title = { Text("Welocome") })
+            topAppBarState.current.updateTopAppBar(title = { Text(stringResource(R.string.app_name)) })
             WelocmeScreen(
                 colorScheme = colorScheme,
                 onSignUp = { authOption = AuthOption.SIGN_UP },
