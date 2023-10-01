@@ -160,7 +160,7 @@ fun SignUpScreen(
                         onSubmit(email, password, name)
                     }
                 ) {
-                    Text(stringResource(R.string.enter))
+                    Text(stringResource(R.string.sign_up))
                 }
             } else {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {

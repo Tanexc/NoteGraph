@@ -90,7 +90,7 @@ fun WelocmeScreen(
 
             OutlinedIconButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onSignUp() }
+                onClick = { onAuthAsGuest() }
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Filled.NoAccounts, null)

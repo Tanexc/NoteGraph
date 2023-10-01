@@ -7,6 +7,7 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
@@ -24,13 +25,16 @@ fun TopAppBar(
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    topAppBarState: AppBarState,
+    topAppBarState: ProvidableCompositionLocal<AppBarState>,
     outlineColor: Color = Color.Transparent
 ) {
-    if (topAppBarState.params.visible) {
+
+    val currentTopAppBarState = topAppBarState.current
+
+    if (currentTopAppBarState.params.visible) {
         CenterAlignedTopAppBar(
-            topAppBarState.params.title,
-            if (topAppBarState.params.borderEnabled) {
+            currentTopAppBarState.params.title,
+            if (currentTopAppBarState.params.borderEnabled) {
                 modifier.drawWithContent {
                     drawContent()
                     drawRect(
@@ -42,8 +46,8 @@ fun TopAppBar(
             } else {
                 modifier.softLayerShadow(spread = 2.dp, offset = DpOffset(2.dp, 0.dp))
             },
-            topAppBarState.params.navigationIcon,
-            topAppBarState.params.actions,
+            currentTopAppBarState.params.navigationIcon,
+            currentTopAppBarState.params.actions,
             windowInsets,
             colors,
             scrollBehavior

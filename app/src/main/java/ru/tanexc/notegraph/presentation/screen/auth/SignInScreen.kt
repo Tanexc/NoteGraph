@@ -5,6 +5,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +33,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tanexc.notegraph.R
+import kotlin.math.sign
 
 @Composable
 fun SignInScreen(
@@ -42,6 +45,7 @@ fun SignInScreen(
     var password: String by remember { mutableStateOf("") }
 
     var showPassword: Boolean by remember { mutableStateOf(false) }
+    var signIn: Boolean by remember { mutableStateOf(false) }
 
     Box(Modifier.fillMaxSize()) {
         Column(
@@ -92,8 +96,17 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.size(32.dp))
 
-            Button(onClick = { onSubmit(email, password) }) {
-                Text(stringResource(R.string.enter))
+            if (!signIn) {
+                Button(onClick = {
+                    onSubmit(email, password)
+                    signIn = true
+                }) {
+                    Text(stringResource(R.string.enter))
+                }
+            } else {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    CircularProgressIndicator()
+                }
             }
 
         }
