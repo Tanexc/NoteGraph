@@ -14,7 +14,7 @@ import ru.tanexc.notegraph.data.keys.Keys.COLOR_TUPLE
 import ru.tanexc.notegraph.data.keys.Keys.IS_DARK_MODE
 import ru.tanexc.notegraph.data.keys.Keys.USE_DYNAMIC_COLORS
 import ru.tanexc.notegraph.domain.interfaces.repository.SettingsRepository
-import ru.tanexc.notegraph.domain.model.Settings
+import ru.tanexc.notegraph.domain.model.settings.Settings
 import ru.tanexc.notegraph.presentation.ui.theme.defaultDarkColorTuple
 import javax.inject.Inject
 
