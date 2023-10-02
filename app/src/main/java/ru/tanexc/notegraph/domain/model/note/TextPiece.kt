@@ -4,10 +4,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
-import ru.tanexc.notegraph.core.util.asMap
 import ru.tanexc.notegraph.data.firebase.entity.TextPieceEntity
 import ru.tanexc.notegraph.domain.interfaces.data_presenter.Domain
-import ru.tanexc.notegraph.domain.interfaces.data_presenter.FirebaseEntity
 import ru.tanexc.notegraph.domain.interfaces.data_presenter.NotePiece
 
 data class TextPiece(

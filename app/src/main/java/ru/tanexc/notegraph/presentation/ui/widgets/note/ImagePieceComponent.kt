@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import ru.tanexc.notegraph.R
-import ru.tanexc.notegraph.domain.model.ImagePiece
+import ru.tanexc.notegraph.domain.model.note.ImagePiece
 
 @Composable
 fun ImagePieceComponent(

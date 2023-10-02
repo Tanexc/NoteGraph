@@ -12,8 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.t8rin.dynamic.theme.calculateTertiaryColor
-import ru.tanexc.notegraph.domain.model.TextPiece
+import ru.tanexc.notegraph.domain.model.note.TextPiece
 
 @Composable
 fun TextPieceComponent(

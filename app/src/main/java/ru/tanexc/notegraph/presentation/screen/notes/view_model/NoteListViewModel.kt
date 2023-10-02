@@ -1,5 +1,6 @@
 package ru.tanexc.notegraph.presentation.screen.notes.view_model
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,9 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.tanexc.notegraph.core.util.Action
-import ru.tanexc.notegraph.domain.model.Note
+import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.domain.use_cases.note.DeleteNoteUseCase
 import ru.tanexc.notegraph.domain.use_cases.note.GetByUserUseCase
 import ru.tanexc.notegraph.domain.use_cases.note.GetNoteByIdUseCase
@@ -22,30 +25,35 @@ class NoteListViewModel @Inject constructor(
     private val getNotesAsFlowUseCase: GetNotesAsFlowUseCase,
     private val getByUserUseCase: GetByUserUseCase,
     private val deleteNoteUseCase: DeleteNoteUseCase
-): ViewModel() {
-    private val _noteList: MutableState<List<Note>?> = mutableStateOf(emptyList())
+) : ViewModel() {
+    private val _noteList: MutableState<List<Note>?> = mutableStateOf(null)
     val noteList: List<Note>? by _noteList
 
     private val _loading: MutableState<Boolean> = mutableStateOf(true)
     val loading: Boolean by _loading
 
     init {
-
+        Log.i("CUMM", "COCK")
         viewModelScope.launch(Dispatchers.IO) {
             getByUserUseCase().collect {
+                Log.i("CUM", "POT2")
                 when (it) {
-                    is Action.Loading -> _loading.value = true
                     is Action.Success -> {
-                        _loading.value = false
                         _noteList.value = it.data
+                        _loading.value = false
                     }
+
                     is Action.Error -> {
                         _loading.value = false
                         _noteList.value = null
                     }
+
+                    else -> {}
                 }
             }
+        }
 
+        viewModelScope.launch(Dispatchers.IO) {
             getNotesAsFlowUseCase().collect {
                 _noteList.value = it
             }
@@ -53,6 +61,5 @@ class NoteListViewModel @Inject constructor(
 
     }
 
-
-
 }
+

@@ -28,7 +28,6 @@ fun ItemCard(
                 shape = RoundedCornerShape(16.dp),
                 brush = if (borderEnabled) SolidColor(borderColor.copy(0.7f)) else SolidColor(Color.Transparent)
             )
-            .clip(RoundedCornerShape(16.dp))
             .background(backgroundColor)
     ) {
         content()

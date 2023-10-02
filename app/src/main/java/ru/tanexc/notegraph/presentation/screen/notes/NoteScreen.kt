@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.ReportProblem
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,7 +31,8 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
-import ru.tanexc.notegraph.domain.model.Note
+import ru.tanexc.notegraph.core.util.Action
+import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.presentation.screen.notes.view_model.NoteViewModel
 import ru.tanexc.notegraph.presentation.ui.theme.Typography
 import ru.tanexc.notegraph.presentation.ui.widgets.note.ImagePieceComponent
@@ -58,6 +60,14 @@ fun NoteScreen(
 
     topAppBarState.current.updateTopAppBar(
         actions = {
+            when(viewModel.synchroinizing) {
+                is Action.Loading -> CircularProgressIndicator(Modifier.size(24.dp))
+                is Action.Error -> Icon(
+                    Icons.Filled.ReportProblem,
+                    null
+                )
+                else -> {}
+            }
             IconButton(
                 enabled = viewModel.focusedPiece != null,
                 onClick = { showBottomSheet = !showBottomSheet }) {

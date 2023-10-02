@@ -1,5 +1,7 @@
 package ru.tanexc.notegraph.presentation.screen.main
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,6 +33,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.rememberColorScheme
@@ -44,7 +47,7 @@ import dev.olshevski.navigation.reimagined.rememberNavController
 import kotlinx.coroutines.launch
 import ru.tanexc.notegraph.R
 import ru.tanexc.notegraph.core.util.Screen
-import ru.tanexc.notegraph.domain.model.Note
+import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.presentation.screen.auth.AuthScreen
 import ru.tanexc.notegraph.presentation.screen.notes.NoteListScreen
 import ru.tanexc.notegraph.presentation.screen.notes.NoteScreen
@@ -59,6 +62,7 @@ import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 fun NoteGraphApp(
     viewModel: MainViewModel
 ) {
+    val activity: Activity = LocalContext.current as Activity
     val navController: NavController<Screen> =
         rememberNavController(startDestination = viewModel.currentScreen)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -191,6 +195,10 @@ fun NoteGraphApp(
             }
         }
 
+    }
+
+    BackHandler(enabled = true) {
+        activity.finish()
     }
 
 }
