@@ -1,7 +1,7 @@
 package ru.tanexc.notegraph.domain.interfaces.repository
 
 import kotlinx.coroutines.flow.Flow
-import ru.tanexc.notegraph.domain.model.User
+import ru.tanexc.notegraph.domain.model.user.User
 
 interface AuthRepository {
 

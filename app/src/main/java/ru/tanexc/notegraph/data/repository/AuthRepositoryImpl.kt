@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import ru.tanexc.notegraph.domain.interfaces.dao.UserDao
 import ru.tanexc.notegraph.domain.interfaces.repository.AuthRepository
-import ru.tanexc.notegraph.domain.model.User
+import ru.tanexc.notegraph.domain.model.user.User
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
