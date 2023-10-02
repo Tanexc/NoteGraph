@@ -1,7 +1,7 @@
 package ru.tanexc.notegraph.domain.interfaces.dao
 
 import kotlinx.coroutines.flow.Flow
-import ru.tanexc.notegraph.domain.model.Note
+import ru.tanexc.notegraph.domain.model.note.Note
 
 interface NoteDao {
     suspend fun create(note: Note)
@@ -12,7 +12,7 @@ interface NoteDao {
 
     suspend fun update(note: Note)
 
-    suspend fun save(note: Note)
+    suspend fun save(note: Note): Note?
 
     suspend fun delete(note: Note)
 
