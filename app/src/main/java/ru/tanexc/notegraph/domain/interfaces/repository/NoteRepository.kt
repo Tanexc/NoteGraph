@@ -2,20 +2,20 @@ package ru.tanexc.notegraph.domain.interfaces.repository
 
 import kotlinx.coroutines.flow.Flow
 import ru.tanexc.notegraph.core.util.Action
-import ru.tanexc.notegraph.domain.model.Note
+import ru.tanexc.notegraph.domain.model.note.Note
 
 interface NoteRepository {
 
     val notesFlow: Flow<List<Note>>
 
-    suspend fun getByUser(): Flow<Action<List<Note>>>
+    fun getByUser(): Flow<Action<List<Note>>>
 
-    suspend fun getById(value: String): Flow<Action<Note?>>
+    fun getById(value: String): Flow<Action<Note?>>
 
-    suspend fun save(value: Note): Flow<Action<Unit>>
+    fun save(value: Note): Flow<Action<Note?>>
 
-    suspend fun delete(value: Note): Flow<Action<Unit>>
+    fun delete(value: Note): Flow<Action<Unit>>
 
-    suspend fun update(value: Note): Flow<Action<Unit>>
+    fun update(value: Note): Flow<Action<Unit>>
 
 }
