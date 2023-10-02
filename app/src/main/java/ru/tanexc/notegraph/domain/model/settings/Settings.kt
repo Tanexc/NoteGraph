@@ -1,4 +1,4 @@
-package ru.tanexc.notegraph.domain.model
+package ru.tanexc.notegraph.domain.model.settings
 
 import androidx.compose.ui.graphics.Color
 import com.t8rin.dynamic.theme.ColorTuple
