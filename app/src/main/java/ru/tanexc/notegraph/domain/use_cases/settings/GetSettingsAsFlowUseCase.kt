@@ -2,7 +2,7 @@ package ru.tanexc.notegraph.domain.use_cases.settings
 
 import kotlinx.coroutines.flow.Flow
 import ru.tanexc.notegraph.domain.interfaces.repository.SettingsRepository
-import ru.tanexc.notegraph.domain.model.Settings
+import ru.tanexc.notegraph.domain.model.settings.Settings
 import javax.inject.Inject
 
 class GetSettingsAsFlowUseCase @Inject constructor(
