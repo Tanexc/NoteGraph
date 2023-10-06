@@ -33,10 +33,7 @@ class NoteListViewModel @Inject constructor(
     val loading: Boolean by _loading
 
     init {
-        Log.i("CUMM", "COCK")
-        viewModelScope.launch(Dispatchers.IO) {
-            getByUserUseCase().collect {
-                Log.i("CUM", "POT2")
+            getByUserUseCase().onEach {
                 when (it) {
                     is Action.Success -> {
                         _noteList.value = it.data
@@ -50,8 +47,7 @@ class NoteListViewModel @Inject constructor(
 
                     else -> {}
                 }
-            }
-        }
+            }.launchIn(viewModelScope)
 
         viewModelScope.launch(Dispatchers.IO) {
             getNotesAsFlowUseCase().collect {

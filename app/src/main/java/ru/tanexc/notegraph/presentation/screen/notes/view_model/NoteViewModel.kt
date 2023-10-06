@@ -16,6 +16,7 @@ import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.domain.model.note.ImagePiece
 import ru.tanexc.notegraph.domain.interfaces.data_presenter.NotePiece
 import ru.tanexc.notegraph.domain.model.note.TextPiece
+import ru.tanexc.notegraph.domain.use_cases.note.GetNoteByIdUseCase
 import ru.tanexc.notegraph.domain.use_cases.note.SaveNoteUseCase
 import ru.tanexc.notegraph.domain.use_cases.note.UpdateNoteUseCase
 import javax.inject.Inject
@@ -29,14 +30,14 @@ class NoteViewModel @Inject constructor(
     val focusedPiece: NotePiece? by _focusedPiece
 
     private val _synchronizing: MutableState<Action<Unit>?> = mutableStateOf(null)
-    val synchroinizing: Action<Unit>? by _synchronizing
+    val synchronizing: Action<Unit>? by _synchronizing
 
-    private val _note: MutableState<Note> = mutableStateOf(Note.Empty())
-    val note: Note by _note
+    private val _note: MutableState<Note?> = mutableStateOf(null)
+    val note: Note? by _note
+
 
     fun setNote(note: Note) {
-        _note.value = note
-        if (note.documentId == "" && synchroinizing == null) {
+        if (note.documentId == "" && _synchronizing.value == null) {
             saveNoteUseCase(note).onEach {
                 when (it) {
                     is Action.Success -> {
@@ -44,19 +45,18 @@ class NoteViewModel @Inject constructor(
                         it.data?.let { note ->
                             _note.value = note
                         }
+                        _note.value = note
                     }
                     is Action.Error -> {
-                        Log.i("CUM", it.messsage?: "err")
                         _synchronizing.value = Action.Error(Unit, messsage = null)
                     }
-
                     is Action.Loading -> {
                         _synchronizing.value = Action.Loading(Unit)
                     }
-
-                    else -> {}
                 }
             }.launchIn(viewModelScope)
+        } else {
+            _note.value = note
         }
     }
 
@@ -65,9 +65,9 @@ class NoteViewModel @Inject constructor(
     }
 
     fun updateTextPieces(value: List<TextPiece>) {
-        _note.value = note.copy(textPieces = value)
+        _note.value = note?.copy(textPieces = value)
         viewModelScope.launch(Dispatchers.IO) {
-            updateNoteUseCase(note).collect {
+            updateNoteUseCase(note!!).collect {
                 _synchronizing.value = it
             }
         }
@@ -75,8 +75,18 @@ class NoteViewModel @Inject constructor(
     }
 
     fun updateImagePieces(value: List<ImagePiece>) {
-        _note.value = note.copy(imagePieces = value)
+        _note.value = note?.copy(imagePieces = value)
         viewModelScope.launch(Dispatchers.IO) {
+            updateNoteUseCase(note!!).collect {
+                Log.i("cum", "${(it as? Action.Error)?.messsage}")
+                _synchronizing.value = it
+            }
+        }
+    }
+
+    fun updateNote(note: Note) {
+        _note.value = note
+        viewModelScope.launch {
             updateNoteUseCase(note).collect {
                 _synchronizing.value = it
             }

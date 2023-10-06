@@ -20,7 +20,6 @@ class NoteRepositoryImpl @Inject constructor(
         emit(Action.Loading(emptyList()))
         runCatching {
             val data = noteDao.getByUser()
-            Log.i("CUM", "POT")
             emit(Action.Success(data))
         }.onFailure { exception ->
             emit(Action.Error(emptyList(), messsage = exception.message))

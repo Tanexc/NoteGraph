@@ -18,4 +18,5 @@
     <string name="app_version">NoteGraph v1.0.0-beta</string>
     <string name="error_loading">Error during loading notes. Please, check your internet connection</string>
     <string name="untitled">Untitled</string>
+    <string name="notify">Notify</string>
 </resources>

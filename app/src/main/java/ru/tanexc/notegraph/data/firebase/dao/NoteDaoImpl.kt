@@ -57,10 +57,10 @@ class NoteDaoImpl @Inject constructor(
 
 
     override suspend fun update(note: Note) {
-        fireStore
+        val user = fireStore
             .collection("user")
             .document(dataStore.data.first()[LOCAL_USER_ID] ?: "")
-            .collection("notes")
+        user.collection("notes")
             .document(note.documentId)
             .update(note.asFirebaseEntity().asMap())
             .await()
@@ -94,14 +94,18 @@ class NoteDaoImpl @Inject constructor(
     }
 
     override fun getNotesFlow(): Flow<List<Note>> = callbackFlow {
-        val notes = fireStore
-            .collection("user")
-            .document(dataStore.data.first()[LOCAL_USER_ID] ?: "")
-            .collection("notes")
-            .addSnapshotListener { value, error ->
-                trySend(value?.toObjects<NoteEntity>()?.map { it.asDomain() } ?: emptyList())
-            }
-        awaitClose { notes.remove() }
+        dataStore.data.first()[LOCAL_USER_ID]?.let { id ->
+            val notes = fireStore
+                .collection("user")
+                .document(id)
+                .collection("notes")
+                .addSnapshotListener { value, error ->
+                    trySend(value?.toObjects<NoteEntity>()?.map { it.asDomain() } ?: emptyList())
+                }
+            awaitClose { notes.remove() }
+        }
+        awaitClose {  }
+
     }
 
 }
