@@ -18,9 +18,9 @@ data class TextPieceEntity(
     val cornerRadius: Int = 0,
     val label: String? = null,
     val text: String = "",
-    val fontSize: Int = 0,
-    val lineHeight: Int = 0,
-    val letterSpacing: Int = 0,
+    val fontSize: Float = 0f,
+    val lineHeight: Float = 0f,
+    val letterSpacing: Float = 0f,
 ): FirebaseEntity {
     override fun asDomain(): TextPiece = TextPiece(
         documentId = documentId,

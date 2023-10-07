@@ -19,9 +19,9 @@ data class ImagePieceEntity(
     val alpha: Float = 0f,
     val label: String? = null,
     val contentDescription: String? = null,
-    val fontSize: Int = 0,
-    val lineHeight: Int = 0,
-    val letterSpacing: Int = 0,
+    val fontSize: Float = 0f,
+    val lineHeight: Float = 0f,
+    val letterSpacing: Float = 0f,
     val imageBitmap: ImageBitmap? = null
 ) : FirebaseEntity {
     override fun asDomain(): ImagePiece = ImagePiece(

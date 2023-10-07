@@ -7,6 +7,7 @@ import androidx.compose.ui.unit.IntSize
 import ru.tanexc.notegraph.data.firebase.entity.TextPieceEntity
 import ru.tanexc.notegraph.domain.interfaces.data_presenter.Domain
 import ru.tanexc.notegraph.domain.interfaces.data_presenter.NotePiece
+import ru.tanexc.notegraph.presentation.ui.theme.Typography
 
 data class TextPiece(
     override val documentId: String,
@@ -28,7 +29,7 @@ data class TextPiece(
             cornerRadius = 16,
             label = null,
             text = "",
-            textStyle = TextStyle.Default
+            textStyle = Typography.labelMedium
         )
     }
 
@@ -41,9 +42,9 @@ data class TextPiece(
         height = size.height,
         cornerRadius = cornerRadius,
         label = label,
-        fontSize = textStyle.fontSize.value.toInt(),
-        lineHeight = textStyle.lineHeight.value.toInt(),
-        letterSpacing = textStyle.letterSpacing.value.toInt(),
+        fontSize = textStyle.fontSize.value,
+        lineHeight = textStyle.lineHeight.value,
+        letterSpacing = textStyle.letterSpacing.value,
         text = text,
         background = background.value.toInt()
     )
