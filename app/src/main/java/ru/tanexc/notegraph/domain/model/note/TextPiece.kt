@@ -18,6 +18,21 @@ data class TextPiece(
     val text: String,
     val textStyle: TextStyle,
 ): Domain, NotePiece {
+
+
+    companion object {
+        fun empty() = TextPiece(
+            documentId = "",
+            offset = IntOffset(0,0),
+            size = IntSize(264, 104),
+            cornerRadius = 16,
+            label = null,
+            text = "",
+            textStyle = TextStyle.Default
+        )
+    }
+
+
     override fun asFirebaseEntity(): TextPieceEntity = TextPieceEntity(
         documentId = documentId,
         offsetX = offset.x,
