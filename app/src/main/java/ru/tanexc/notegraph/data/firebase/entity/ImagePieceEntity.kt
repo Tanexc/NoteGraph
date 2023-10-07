@@ -22,7 +22,7 @@ data class ImagePieceEntity(
     val fontSize: Int = 0,
     val lineHeight: Int = 0,
     val letterSpacing: Int = 0,
-    val imageBitmap: ImageBitmap = ImageBitmap(0, 0)
+    val imageBitmap: ImageBitmap? = null
 ) : FirebaseEntity {
     override fun asDomain(): ImagePiece = ImagePiece(
         documentId = documentId,
@@ -41,7 +41,7 @@ data class ImagePieceEntity(
     )
 
 
-    override fun asMap(): Map<String, Any> = mapOf(
+    override fun asMap(): Map<String, Any?> = mapOf(
         "documentId" to documentId,
         "offsetX" to offsetX,
         "offsetY" to offsetY,
@@ -49,8 +49,8 @@ data class ImagePieceEntity(
         "height" to height,
         "cornerRadius" to cornerRadius,
         "alpha" to alpha,
-        "label" to (label?: ""),
-        "contentDescription" to (contentDescription?: ""),
+        "label" to label,
+        "contentDescription" to contentDescription,
         "fontSize" to fontSize,
         "lineHeight" to lineHeight,
         "letterSpacing" to letterSpacing,

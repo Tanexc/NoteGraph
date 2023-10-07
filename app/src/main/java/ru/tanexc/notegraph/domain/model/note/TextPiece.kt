@@ -9,7 +9,7 @@ import ru.tanexc.notegraph.domain.interfaces.data_presenter.Domain
 import ru.tanexc.notegraph.domain.interfaces.data_presenter.NotePiece
 
 data class TextPiece(
-    val documentId: String,
+    override val documentId: String,
     val offset: IntOffset,
     val size: IntSize = IntSize(164, 64),
     val background: Color = Color.Transparent,

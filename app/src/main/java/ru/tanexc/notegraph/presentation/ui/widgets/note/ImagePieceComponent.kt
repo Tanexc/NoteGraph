@@ -48,7 +48,7 @@ fun ImagePieceComponent(
                     .fillMaxSize()
                     .padding(16.dp)
             )
-            TODO("edit imagePiece component")
+
         }
     }
 }
