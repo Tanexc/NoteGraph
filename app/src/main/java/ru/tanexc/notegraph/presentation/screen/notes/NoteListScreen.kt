@@ -67,11 +67,13 @@ fun NoteListScreen(
                             borderColor = colorScheme.outline,
                             backgroundColor = colorScheme.secondaryContainer
                         ) {
-                            Spacer(modifier = Modifier.size(56.dp))
+                            Box(Modifier.padding(16.dp)) {
+                                Spacer(modifier = Modifier.size(56.dp))
 
-                            Text(it.label, modifier = Modifier.align(Alignment.Center))
+                                Text(it.label, modifier = Modifier.align(Alignment.Center))
 
-                            Spacer(modifier = Modifier.size(56.dp))
+                                Spacer(modifier = Modifier.size(56.dp))
+                            }
                         }
                     }
                 }

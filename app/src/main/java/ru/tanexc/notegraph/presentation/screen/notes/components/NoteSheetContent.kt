@@ -11,7 +11,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
@@ -46,8 +45,13 @@ fun ColumnScope.NoteSheetContent(
                 modifier = Modifier.align(CenterHorizontally),
                 value = labelText,
                 onValueChange = {
-                    labelText = it
-                    onValueChanged(note.copy(label = labelText))
+                    if (it.length <= 64) {
+                        labelText = it
+                        onValueChanged(note.copy(label = labelText))
+                    }
+                },
+                supportingText = {
+                    Text("${labelText.length} / 64")
                 }
             )
             Spacer(modifier = Modifier.size(48.dp))

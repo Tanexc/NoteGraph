@@ -19,4 +19,6 @@
     <string name="error_loading">Error during loading notes. Please, check your internet connection</string>
     <string name="untitled">Untitled</string>
     <string name="notify">Notify</string>
+    <string name="close">Close</string>
+    <string name="piece_label">Label of piece</string>
 </resources>

@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.NoteAlt
 import androidx.compose.material.icons.outlined.Settings
@@ -75,23 +77,6 @@ fun NoteGraphApp(
     )
 
     var selectedNote: Note? by remember { mutableStateOf(null) }
-
-    topAppBarState.current.updateTopAppBar(
-        navigationIcon = {
-            IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                Icon(Icons.Outlined.Menu, null)
-            }
-        }
-    )
-
-    LaunchedEffect(selectedNote) {
-        viewModel.updateCurrentScreen(
-            when (selectedNote) {
-                is Note -> Screen.Note
-                else -> Screen.Notes
-            }
-        )
-    }
 
     LaunchedEffect(viewModel.currentScreen) {
         navController.popAll()
@@ -165,27 +150,48 @@ fun NoteGraphApp(
 
                         Screen.Notes -> {
                             topAppBarState.current.updateTopAppBar(
-                                title = { Text(stringResource(R.string.notes)) }
+                                title = { Text(stringResource(R.string.notes)) },
+                                navigationIcon = {
+                                    IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                                        Icon(Icons.Outlined.Menu, null)
+                                    }
+                                }
                             )
                             NoteListScreen(
                                 modifier = Modifier.padding(innerPaddings),
-                                onOpenNote = { selectedNote = it }
+                                onOpenNote = {
+                                    selectedNote = it
+                                    viewModel.updateCurrentScreen(Screen.Note)
+                                }
                             )
 
                         }
 
                         Screen.Settings -> {
                             topAppBarState.current.updateTopAppBar(
-                                title = { Text(stringResource(R.string.settings)) }
+                                title = { Text(stringResource(R.string.settings)) },
+                                navigationIcon = {
+                                    IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                                        Icon(Icons.Outlined.Menu, null)
+                                    }
+                                }
                             )
                         }
 
                         Screen.Note -> {
                             selectedNote?.let { note ->
                                 topAppBarState.current.updateTopAppBar(
-                                    title = { Text(note.label) }
+                                    navigationIcon = {
+                                        IconButton(onClick = { scope.launch { viewModel.updateCurrentScreen(Screen.Notes) } }) {
+                                            Icon(Icons.AutoMirrored.Outlined.ArrowBack, null)
+                                        }
+                                    }
                                 )
-                                NoteScreen(note = note)
+                                NoteScreen(
+                                    modifier = Modifier
+                                        .padding(innerPaddings),
+                                    note = note
+                                )
                             }
                         }
                     }
