@@ -2,7 +2,9 @@ package ru.tanexc.notegraph.domain.interfaces.repository
 
 import kotlinx.coroutines.flow.Flow
 import ru.tanexc.notegraph.core.util.Action
+import ru.tanexc.notegraph.domain.model.note.ImagePiece
 import ru.tanexc.notegraph.domain.model.note.Note
+import ru.tanexc.notegraph.domain.model.note.TextPiece
 
 interface NoteRepository {
 
@@ -18,4 +20,7 @@ interface NoteRepository {
 
     fun update(value: Note): Flow<Action<Unit>>
 
+    fun updateImagePiece(noteId: String, value: ImagePiece): Flow<Action<Unit>>
+
+    fun updateTextPiece(noteId: String, value: TextPiece): Flow<Action<Unit>>
 }

@@ -24,7 +24,9 @@ import ru.tanexc.notegraph.domain.model.note.ImagePiece
 import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.domain.model.note.TextPiece
 import ru.tanexc.notegraph.domain.use_cases.note.SaveNoteUseCase
+import ru.tanexc.notegraph.domain.use_cases.note.UpdateImagePieceUseCase
 import ru.tanexc.notegraph.domain.use_cases.note.UpdateNoteUseCase
+import ru.tanexc.notegraph.domain.use_cases.note.UpdateTextPieceUseCase
 import java.util.UUID
 import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
@@ -32,7 +34,9 @@ import kotlin.coroutines.coroutineContext
 @HiltViewModel
 class NoteViewModel @Inject constructor(
     private val saveNoteUseCase: SaveNoteUseCase,
-    private val updateNoteUseCase: UpdateNoteUseCase
+    private val updateNoteUseCase: UpdateNoteUseCase,
+    private val updateTextPieceUseCase: UpdateTextPieceUseCase,
+    private val updateImagePieceUseCase: UpdateImagePieceUseCase
 ) : ViewModel() {
     private val _focusedPieceId: MutableState<String?> = mutableStateOf(null)
     val focusedPieceId: String? by _focusedPieceId
@@ -144,6 +148,7 @@ class NoteViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             updateNoteUseCase(note).collect {
                 _synchronizing.value = it
+                Log.i("update", "note ${(it as? Action.Error)?.messsage}")
             }
         }
     }
@@ -158,4 +163,25 @@ class NoteViewModel @Inject constructor(
         }
     }
 
+    fun saveTextPiece(id: String) {
+        note?.let { note ->
+            viewModelScope.launch(Dispatchers.IO) {
+                updateTextPieceUseCase(note.documentId, note.textPieces.first { it.documentId == id }).collect {
+                    _synchronizing.value = it
+                    Log.i("update", "text piece ${(it as? Action.Error)?.messsage}")
+                }
+            }
+        }
+    }
+
+    fun saveImagePiece(id: String) {
+        note?.let { note ->
+            viewModelScope.launch(Dispatchers.IO) {
+                updateImagePieceUseCase(note.documentId, note.imagePieces.first { it.documentId == id }).collect {
+                    _synchronizing.value = it
+                    Log.i("update", "image piece ${(it as? Action.Error)?.messsage}")
+                }
+            }
+        }
+    }
 }

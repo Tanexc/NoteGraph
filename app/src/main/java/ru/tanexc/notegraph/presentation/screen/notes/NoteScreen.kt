@@ -110,7 +110,8 @@ fun NoteScreen(
                     onImagePieceMove = { viewModel.updateImagePiece(it) },
                     onTextPieceMove = { viewModel.updateTextPiece(it) },
                     onFocusedPieceChange = { viewModel.updateFocusedPiece(it) },
-                    onReleasePiece = { viewModel.updateNote() }
+                    onReleaseImagePiece = { viewModel.saveImagePiece(it) },
+                    onReleaseTextPiece = { viewModel.saveTextPiece(it) }
                 )
 
                 AnimatedVisibility(

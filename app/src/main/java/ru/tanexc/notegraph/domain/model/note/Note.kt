@@ -28,8 +28,6 @@ data class Note(
     override fun asFirebaseEntity(): NoteEntity = NoteEntity(
         documentId = documentId,
         label = label,
-        imagePieces = imagePieces.map { it.asFirebaseEntity() },
-        textPieces = textPieces.map { it.asFirebaseEntity() },
         dependsOn = dependsOn,
         endTo = endTo
     )

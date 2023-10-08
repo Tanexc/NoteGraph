@@ -44,7 +44,8 @@ fun NoteField(
     onTextPieceMove: (TextPiece) -> Unit,
     onImagePieceMove: (ImagePiece) -> Unit,
     onFocusedPieceChange: (String?) -> Unit,
-    onReleasePiece: () -> Unit
+    onReleaseImagePiece: (String) -> Unit,
+    onReleaseTextPiece: (String) -> Unit
 ) {
     val noteScrollState = rememberFreeScrollState()
     val width = remember { mutableStateOf(500.dp) }
@@ -138,7 +139,7 @@ fun NoteField(
                     focused = focusedPieceId == item.documentId,
                     piece = item,
                     indicationColor = colorScheme.tertiary.copy(0.7f),
-                    onRelease = onReleasePiece
+                    onRelease = { onReleaseTextPiece(item.documentId) }
                 )
             }
             imagePieces.forEach { item ->
@@ -163,7 +164,7 @@ fun NoteField(
                     focused = focusedPieceId == item.documentId,
                     piece = item,
                     indicationColor = colorScheme.tertiary.copy(0.7f),
-                    onRelease = onReleasePiece
+                    onRelease = { onReleaseImagePiece(item.documentId) }
 
                 )
             }

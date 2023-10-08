@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.flow
 import ru.tanexc.notegraph.core.util.Action
 import ru.tanexc.notegraph.domain.interfaces.dao.NoteDao
 import ru.tanexc.notegraph.domain.interfaces.repository.NoteRepository
+import ru.tanexc.notegraph.domain.model.note.ImagePiece
 import ru.tanexc.notegraph.domain.model.note.Note
+import ru.tanexc.notegraph.domain.model.note.TextPiece
 import javax.inject.Inject
 
 class NoteRepositoryImpl @Inject constructor(
@@ -55,6 +57,7 @@ class NoteRepositoryImpl @Inject constructor(
             emit(Action.Error(Unit, messsage = exception.message))
         }
     }
+
     override fun update(value: Note): Flow<Action<Unit>> = flow {
         emit(Action.Loading(Unit))
         runCatching {
@@ -64,4 +67,26 @@ class NoteRepositoryImpl @Inject constructor(
             emit(Action.Error(Unit, messsage = exception.message))
         }
     }
+
+    override fun updateImagePiece(noteId: String, value: ImagePiece): Flow<Action<Unit>> = flow {
+        emit(Action.Loading(Unit))
+        runCatching {
+            noteDao.updateImagePiece(noteId, value)
+            emit(Action.Success(Unit))
+        }.onFailure { exception ->
+            emit(Action.Error(Unit, messsage = exception.message))
+        }
+    }
+
+    override fun updateTextPiece(noteId: String, value: TextPiece): Flow<Action<Unit>> = flow {
+        emit(Action.Loading(Unit))
+        runCatching {
+            noteDao.updateTextPiece(noteId, value)
+            emit(Action.Success(Unit))
+        }.onFailure { exception ->
+            emit(Action.Error(Unit, messsage = exception.message))
+        }
+    }
+
+
 }
