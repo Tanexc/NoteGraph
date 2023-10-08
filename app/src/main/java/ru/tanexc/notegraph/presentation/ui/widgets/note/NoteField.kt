@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import com.chihsuanwu.freescroll.freeScroll
 import com.chihsuanwu.freescroll.rememberFreeScrollState
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
+import kotlinx.coroutines.flow.collect
 import org.w3c.dom.Text
 import ru.tanexc.notegraph.domain.model.note.ImagePiece
 import ru.tanexc.notegraph.domain.model.note.TextPiece
@@ -42,6 +44,7 @@ fun NoteField(
     onTextPieceMove: (TextPiece) -> Unit,
     onImagePieceMove: (ImagePiece) -> Unit,
     onFocusedPieceChange: (String?) -> Unit,
+    onReleasePiece: () -> Unit
 ) {
     val noteScrollState = rememberFreeScrollState()
     val width = remember { mutableStateOf(500.dp) }
@@ -134,7 +137,8 @@ fun NoteField(
                     },
                     focused = focusedPieceId == item.documentId,
                     piece = item,
-                    indicationColor = colorScheme.tertiary.copy(0.7f)
+                    indicationColor = colorScheme.tertiary.copy(0.7f),
+                    onRelease = onReleasePiece
                 )
             }
             imagePieces.forEach { item ->
@@ -158,7 +162,8 @@ fun NoteField(
                     },
                     focused = focusedPieceId == item.documentId,
                     piece = item,
-                    indicationColor = colorScheme.tertiary.copy(0.7f)
+                    indicationColor = colorScheme.tertiary.copy(0.7f),
+                    onRelease = onReleasePiece
 
                 )
             }

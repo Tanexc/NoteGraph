@@ -1,13 +1,20 @@
 package ru.tanexc.notegraph.data.firebase.entity
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tanexc.notegraph.core.util.asImageBitmap
+import ru.tanexc.notegraph.core.util.asString
 import ru.tanexc.notegraph.domain.interfaces.data_presenter.FirebaseEntity
 import ru.tanexc.notegraph.domain.model.note.ImagePiece
+import java.util.Base64
 
 data class ImagePieceEntity(
     val documentId: String = "",
@@ -22,7 +29,7 @@ data class ImagePieceEntity(
     val fontSize: Float = 0f,
     val lineHeight: Float = 0f,
     val letterSpacing: Float = 0f,
-    val imageBitmap: ImageBitmap? = null
+    val imageBitmap: String? = null
 ) : FirebaseEntity {
     override fun asDomain(): ImagePiece = ImagePiece(
         documentId = documentId,
@@ -31,7 +38,7 @@ data class ImagePieceEntity(
         cornerRadius = cornerRadius,
         alpha = alpha,
         contentDescription = contentDescription,
-        imageBitmap = imageBitmap,
+        imageBitmap = imageBitmap?.asImageBitmap(),
         label = label,
         textStyle = TextStyle(
             fontSize = fontSize.sp,

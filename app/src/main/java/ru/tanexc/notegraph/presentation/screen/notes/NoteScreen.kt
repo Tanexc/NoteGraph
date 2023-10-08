@@ -1,13 +1,13 @@
 package ru.tanexc.notegraph.presentation.screen.notes
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -32,23 +32,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.t8rin.dynamic.theme.rememberColorScheme
-import com.t8rin.dynamic.theme.rememberDynamicThemeState
+import androidx.core.graphics.drawable.toBitmap
+import coil.ImageLoader
+import coil.request.ImageRequest
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tanexc.notegraph.core.util.Action
-import ru.tanexc.notegraph.domain.model.note.ImagePiece
 import ru.tanexc.notegraph.domain.model.note.Note
-import ru.tanexc.notegraph.domain.model.note.TextPiece
 import ru.tanexc.notegraph.presentation.screen.notes.components.ImagePieceSheetContent
 import ru.tanexc.notegraph.presentation.screen.notes.components.NoteSheetContent
 import ru.tanexc.notegraph.presentation.screen.notes.view_model.NoteViewModel
 import ru.tanexc.notegraph.presentation.ui.widgets.FabOption
 import ru.tanexc.notegraph.presentation.ui.widgets.MultipleFloatingActionButton
-import ru.tanexc.notegraph.presentation.ui.widgets.note.ImagePieceComponent
 import ru.tanexc.notegraph.presentation.ui.widgets.note.NoteField
-import ru.tanexc.notegraph.presentation.ui.widgets.note.TextPieceComponent
-import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
 import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -57,11 +54,21 @@ fun NoteScreen(
     modifier: Modifier,
     note: Note
 ) {
+    val context = LocalContext.current
     val viewModel: NoteViewModel = hiltViewModel()
     var showNoteSheet: Boolean by remember { mutableStateOf(false) }
     var showImagePieceSheet: Boolean by remember { mutableStateOf(false) }
     var showTextPieceSheet: Boolean by remember { mutableStateOf(false) }
     val topAppBarState = rememberAppBarState()
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = {
+            it?.let {
+                val imageRequest = ImageRequest.Builder(context).data(it).build()
+                viewModel.createImagePiece(imageRequest, context)
+            }
+        }
+    )
 
     when (val currentNote = viewModel.note) {
         is Note -> {
@@ -101,8 +108,9 @@ fun NoteScreen(
                     imagePieces = currentNote.imagePieces,
                     textPieces = currentNote.textPieces,
                     onImagePieceMove = { viewModel.updateImagePiece(it) },
-                    onTextPieceMove = { viewModel.updateTextPiece(it)},
-                    onFocusedPieceChange = { viewModel.updateFocusedPiece(it) }
+                    onTextPieceMove = { viewModel.updateTextPiece(it) },
+                    onFocusedPieceChange = { viewModel.updateFocusedPiece(it) },
+                    onReleasePiece = { viewModel.updateNote() }
                 )
 
                 AnimatedVisibility(
@@ -161,9 +169,15 @@ fun NoteScreen(
                     onOptionSelected = {
                         when (it.index) {
                             0 -> {
-                                viewModel.createImagePiece()
-                                showImagePieceSheet = true
-                                showTextPieceSheet = false
+                                imagePicker.launch(
+                                    PickVisualMediaRequest(
+                                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                                    )
+                                )
+                                if (viewModel.focusedPieceId != null) {
+                                    showImagePieceSheet = true
+                                    showTextPieceSheet = false
+                                }
                             }
 
                             1 -> {

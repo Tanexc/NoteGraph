@@ -1,11 +1,21 @@
 package ru.tanexc.notegraph.presentation.screen.notes.view_model
 
+import android.content.Context
+import android.util.Log
+import androidx.compose.runtime.CompositionContext
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.ImageLoader
+import coil.request.ImageRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -17,6 +27,7 @@ import ru.tanexc.notegraph.domain.use_cases.note.SaveNoteUseCase
 import ru.tanexc.notegraph.domain.use_cases.note.UpdateNoteUseCase
 import java.util.UUID
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
@@ -59,12 +70,21 @@ class NoteViewModel @Inject constructor(
         }
     }
 
-    fun createImagePiece() {
+    fun createImagePiece(imageRequest: ImageRequest, context: Context) {
         note?.let { note ->
-            _focusedPieceId.value = "ImagePiece#${UUID.randomUUID()}"
-            updateImagePieces(
-                note.imagePieces + ImagePiece.empty().copy(documentId = focusedPieceId!!)
-            )
+            val loader = ImageLoader(context).newBuilder().build()
+            viewModelScope.launch(Dispatchers.IO) {
+                val imageBitmap =
+                    loader.execute(imageRequest).drawable?.toBitmapOrNull()?.asImageBitmap()
+
+                _focusedPieceId.value = "ImagePiece#${UUID.randomUUID()}"
+                updateImagePieces(
+                    note.imagePieces + ImagePiece.empty()
+                        .copy(documentId = focusedPieceId!!, imageBitmap = imageBitmap)
+                )
+            }
+
+
         }
     }
 
@@ -96,34 +116,44 @@ class NoteViewModel @Inject constructor(
 
     fun updateImagePiece(value: ImagePiece) {
         note?.let { note ->
-            updateNote(note.copy(
+            _note.value = note.copy(
                 imagePieces = note.imagePieces
                     .toMutableList()
                     .apply {
                         this[this.indexOf(this.first { it.documentId == value.documentId })] = value
                     }
-            ))
+            )
         }
 
     }
 
     fun updateTextPiece(value: TextPiece) {
         note?.let { note ->
-            updateNote(note.copy(
+            _note.value = note.copy(
                 textPieces = note.textPieces
                     .toMutableList()
                     .apply {
                         this[this.indexOf(this.first { it.documentId == value.documentId })] = value
                     }
-            ))
+            )
         }
     }
 
     fun updateNote(note: Note) {
         _note.value = note
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             updateNoteUseCase(note).collect {
                 _synchronizing.value = it
+            }
+        }
+    }
+
+    fun updateNote() {
+        note?.let { note ->
+            viewModelScope.launch(Dispatchers.IO) {
+                updateNoteUseCase(note).collect {
+                    _synchronizing.value = it
+                }
             }
         }
     }

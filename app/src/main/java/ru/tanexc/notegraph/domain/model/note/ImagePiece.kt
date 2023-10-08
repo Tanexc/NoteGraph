@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
+import ru.tanexc.notegraph.core.util.asString
 import ru.tanexc.notegraph.data.firebase.entity.ImagePieceEntity
 import ru.tanexc.notegraph.domain.interfaces.data_presenter.Domain
 import ru.tanexc.notegraph.domain.interfaces.data_presenter.NotePiece
@@ -52,6 +53,6 @@ data class ImagePiece(
         fontSize = textStyle.fontSize.value,
         lineHeight = textStyle.lineHeight.value,
         letterSpacing = textStyle.letterSpacing.value,
-        imageBitmap = imageBitmap
+        imageBitmap = imageBitmap.asString()
     )
 }

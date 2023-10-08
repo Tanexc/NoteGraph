@@ -1,9 +1,18 @@
 package ru.tanexc.notegraph.presentation.ui.widgets.note
 
+import android.util.Log
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,6 +28,7 @@ fun DraggableComponent(
     enabled: Boolean = true,
     enabledIndication: Modifier.() ->Modifier,
     onOffsetChange: ((IntOffset) -> Unit)? = null,
+    onRelease: () -> Unit,
     content: @Composable () -> Unit
 ) {
     var offset: IntOffset by remember { mutableStateOf(startOffset) }
@@ -28,9 +38,12 @@ fun DraggableComponent(
         if (enabled) Modifier
             .offset { offset }
             .pointerInput(Unit) {
-                detectDragGestures { change, dragAmount ->
+                detectDragGestures(
+                    onDragEnd = onRelease
+                ) { change, dragAmount ->
                     change.consume()
-                    val offsetChange = IntOffset(dragAmount.x.roundToInt(), dragAmount.y.roundToInt())
+                    val offsetChange =
+                        IntOffset(dragAmount.x.roundToInt(), dragAmount.y.roundToInt())
                     if ((offset + offsetChange).x > 0 && (offset + offsetChange).y > 0) {
                         offset += offsetChange
                         onOffsetChange?.let { it(offset) }

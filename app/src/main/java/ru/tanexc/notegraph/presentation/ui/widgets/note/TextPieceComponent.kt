@@ -19,6 +19,7 @@ import ru.tanexc.notegraph.domain.model.note.TextPiece
 fun TextPieceComponent(
     modifier: Modifier = Modifier,
     onOffsetChange: ((IntOffset) -> Unit)?,
+    onRelease: () -> Unit,
     focused: Boolean,
     piece: TextPiece,
     indicationColor: Color
@@ -34,7 +35,8 @@ fun TextPieceComponent(
                 shape = RoundedCornerShape(piece.cornerRadius),
                 color = indicationColor
             )
-        }
+        },
+        onRelease = onRelease
     ) {
 
         Box(
