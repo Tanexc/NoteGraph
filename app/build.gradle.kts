@@ -56,22 +56,22 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.activity:activity-compose:1.7.2")
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha12")
+    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
 
     // Coroutine Lifecycle Scopes
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
     // Compose
-    implementation("androidx.compose.ui:ui:1.6.0-alpha06")
-    implementation("androidx.compose.material3:material3:1.2.0-alpha08")
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha08")
-    implementation("androidx.compose.material:material-icons-core:1.6.0-alpha06")
-    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha06")
-    implementation("androidx.compose.foundation:foundation:1.6.0-alpha06")
-    implementation("androidx.compose.ui:ui-util:1.6.0-alpha06")
-    implementation("androidx.compose.material:material:1.5.1")
+    implementation("androidx.compose.ui:ui:1.6.0-alpha07")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha09")
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha09")
+    implementation("androidx.compose.material:material-icons-core:1.6.0-alpha07")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha07")
+    implementation("androidx.compose.foundation:foundation:1.6.0-alpha07")
+    implementation("androidx.compose.ui:ui-util:1.6.0-alpha07")
+    implementation("androidx.compose.material:material:1.5.3")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
@@ -112,5 +112,9 @@ dependencies {
     implementation("com.google.accompanist:accompanist-placeholder-material:0.29.1-alpha")
     implementation("com.google.accompanist:accompanist-pager:0.29.1-alpha")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.29.1-alpha")
+
+    //Coil
+    implementation("io.coil-kt:coil:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
 }
