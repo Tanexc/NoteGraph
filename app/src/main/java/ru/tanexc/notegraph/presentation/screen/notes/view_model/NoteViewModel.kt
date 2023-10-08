@@ -49,23 +49,23 @@ class NoteViewModel @Inject constructor(
 
 
     fun setNote(note: Note) {
-        if (note.documentId == "" && _synchronizing.value == null) {
+        if (note.documentId == "" && synchronizing == null) {
             saveNoteUseCase(note).onEach {
                 when (it) {
+                    is Action.Loading -> {
+                        _synchronizing.value = Action.Loading(Unit)
+                    }
                     is Action.Success -> {
                         _synchronizing.value = Action.Success(Unit)
                         it.data?.let { note ->
                             _note.value = note
+                            Log.i("save", note.documentId)
                         }
-                        _note.value = note
+
                     }
 
                     is Action.Error -> {
                         _synchronizing.value = Action.Error(Unit, messsage = null)
-                    }
-
-                    is Action.Loading -> {
-                        _synchronizing.value = Action.Loading(Unit)
                     }
                 }
             }.launchIn(viewModelScope)
