@@ -21,4 +21,16 @@
     <string name="notify">Notify</string>
     <string name="close">Close</string>
     <string name="piece_label">Label of piece</string>
+    <string name="content_description">Description</string>
+    <string name="text">Text</string>
+    <string name="font_size">Font size</string>
+    <string name="line_height">Line height\n</string>
+    <string name="letter_spacing">Letter spacing</string>
+    <string name="size">Size</string>
+    <string name="width">Width</string>
+    <string name="corner_radius">Corner radius</string>
+    <string name="height">Height</string>
+    <string name="image">Image</string>
+    <string name="alpha">Alpha</string>
+    <string name="background">Background\n</string>
 </resources>

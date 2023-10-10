@@ -2,13 +2,12 @@ package ru.tanexc.notegraph.presentation.screen.notes.view_model
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.CompositionContext
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.tanexc.notegraph.core.util.Action
+import ru.tanexc.notegraph.core.util.SheetOption
 import ru.tanexc.notegraph.domain.model.note.ImagePiece
 import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.domain.model.note.TextPiece
@@ -29,7 +29,6 @@ import ru.tanexc.notegraph.domain.use_cases.note.UpdateNoteUseCase
 import ru.tanexc.notegraph.domain.use_cases.note.UpdateTextPieceUseCase
 import java.util.UUID
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
@@ -47,6 +46,8 @@ class NoteViewModel @Inject constructor(
     private val _note: MutableState<Note?> = mutableStateOf(null)
     val note: Note? by _note
 
+    private val _sheetOption: MutableState<SheetOption> = mutableStateOf(SheetOption.None)
+    val sheetOption: SheetOption by _sheetOption
 
     fun setNote(note: Note) {
         if (note.documentId == "" && synchronizing == null) {
@@ -59,7 +60,6 @@ class NoteViewModel @Inject constructor(
                         _synchronizing.value = Action.Success(Unit)
                         it.data?.let { note ->
                             _note.value = note
-                            Log.i("save", note.documentId)
                         }
 
                     }
@@ -76,12 +76,11 @@ class NoteViewModel @Inject constructor(
 
     fun createImagePiece(imageRequest: ImageRequest, context: Context) {
         note?.let { note ->
+            _focusedPieceId.value = "ImagePiece#${UUID.randomUUID()}"
             val loader = ImageLoader(context).newBuilder().build()
             viewModelScope.launch(Dispatchers.IO) {
                 val imageBitmap =
                     loader.execute(imageRequest).drawable?.toBitmapOrNull()?.asImageBitmap()
-
-                _focusedPieceId.value = "ImagePiece#${UUID.randomUUID()}"
                 updateImagePieces(
                     note.imagePieces + ImagePiece.empty()
                         .copy(documentId = focusedPieceId!!, imageBitmap = imageBitmap)
@@ -128,7 +127,6 @@ class NoteViewModel @Inject constructor(
                     }
             )
         }
-
     }
 
     fun updateTextPiece(value: TextPiece) {
@@ -148,7 +146,6 @@ class NoteViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             updateNoteUseCase(note).collect {
                 _synchronizing.value = it
-                Log.i("update", "note ${(it as? Action.Error)?.messsage}")
             }
         }
     }
@@ -168,7 +165,6 @@ class NoteViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 updateTextPieceUseCase(note.documentId, note.textPieces.first { it.documentId == id }).collect {
                     _synchronizing.value = it
-                    Log.i("update", "text piece ${(it as? Action.Error)?.messsage}")
                 }
             }
         }
@@ -179,9 +175,12 @@ class NoteViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 updateImagePieceUseCase(note.documentId, note.imagePieces.first { it.documentId == id }).collect {
                     _synchronizing.value = it
-                    Log.i("update", "image piece ${(it as? Action.Error)?.messsage}")
                 }
             }
         }
+    }
+
+    infix fun openContent(value: SheetOption) {
+        _sheetOption.value = value
     }
 }
