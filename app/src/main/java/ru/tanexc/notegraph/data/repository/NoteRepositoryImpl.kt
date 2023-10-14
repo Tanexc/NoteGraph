@@ -1,6 +1,5 @@
 package ru.tanexc.notegraph.data.repository
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.tanexc.notegraph.core.util.Action
@@ -88,5 +87,23 @@ class NoteRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun deleteImagePiece(noteId: String, value: ImagePiece): Flow<Action<Unit>> = flow {
+        emit(Action.Loading(Unit))
+        runCatching {
+            noteDao.deleteImagePiece(noteId, value)
+            emit(Action.Success(Unit))
+        }.onFailure { exception ->
+            emit(Action.Error(Unit, messsage = exception.message))
+        }
+    }
+    override fun deleteTextPiece(noteId: String, value: TextPiece): Flow<Action<Unit>> = flow {
+        emit(Action.Loading(Unit))
+        runCatching {
+            noteDao.deleteTextPiece(noteId, value)
+            emit(Action.Success(Unit))
+        }.onFailure { exception ->
+            emit(Action.Error(Unit, messsage = exception.message))
+        }
+    }
 
 }

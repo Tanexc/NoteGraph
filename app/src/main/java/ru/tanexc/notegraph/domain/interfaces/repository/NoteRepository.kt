@@ -23,4 +23,8 @@ interface NoteRepository {
     fun updateImagePiece(noteId: String, value: ImagePiece): Flow<Action<Unit>>
 
     fun updateTextPiece(noteId: String, value: TextPiece): Flow<Action<Unit>>
+
+    fun deleteImagePiece(noteId: String, value: ImagePiece): Flow<Action<Unit>>
+
+    fun deleteTextPiece(noteId: String, value: TextPiece): Flow<Action<Unit>>
 }

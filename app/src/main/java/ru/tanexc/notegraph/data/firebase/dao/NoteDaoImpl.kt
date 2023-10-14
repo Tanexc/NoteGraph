@@ -146,6 +146,34 @@ class NoteDaoImpl @Inject constructor(
             .await()
     }
 
+    override suspend fun deleteImagePiece(noteId: String, imagePiece: ImagePiece) {
+        val note = fireStore
+            .collection("user")
+            .document(dataStore.data.first()[LOCAL_USER_ID] ?: "")
+            .collection("notes")
+            .document(noteId)
+
+        note
+            .collection("image_pieces")
+            .document(imagePiece.documentId)
+            .delete()
+            .await()
+    }
+
+    override suspend fun deleteTextPiece(noteId: String, textPiece: TextPiece) {
+        val note = fireStore
+            .collection("user")
+            .document(dataStore.data.first()[LOCAL_USER_ID] ?: "")
+            .collection("notes")
+            .document(noteId)
+
+        note
+            .collection("text_pieces")
+            .document(textPiece.documentId)
+            .delete()
+            .await()
+    }
+
     override suspend fun delete(note: Note) {
         fireStore
             .collection("user")
