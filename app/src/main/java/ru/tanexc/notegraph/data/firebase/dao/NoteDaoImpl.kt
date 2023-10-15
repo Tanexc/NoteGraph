@@ -202,4 +202,23 @@ class NoteDaoImpl @Inject constructor(
 
     }
 
+    override fun getNoteAsFlow(noteId: String): Flow<Note> = callbackFlow {
+        dataStore.data.first()[LOCAL_USER_ID]?.let { id ->
+            val listener = fireStore
+                .collection("user")
+                .document(id)
+                .collection("notes")
+                .document(noteId)
+                .addSnapshotListener { value, error ->
+                    CoroutineScope(this.coroutineContext).launch {
+                        getById(noteId)?.let {
+                            trySend(it)
+                        }
+                    }
+                }
+            awaitClose { listener.remove() }
+        }
+        awaitClose {  }
+    }
+
 }

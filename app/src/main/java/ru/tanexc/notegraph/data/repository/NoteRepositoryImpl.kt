@@ -1,6 +1,8 @@
 package ru.tanexc.notegraph.data.repository
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import ru.tanexc.notegraph.core.util.Action
 import ru.tanexc.notegraph.domain.interfaces.dao.NoteDao
@@ -106,4 +108,14 @@ class NoteRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getNoteAsFlow(noteId: String): Flow<Action<Note?>> = flow {
+        emit(Action.Loading(null))
+        try {
+            noteDao.getNoteAsFlow(noteId).collect {
+                emit(Action.Success(it))
+            }
+        } catch (e: Exception) {
+            emit(Action.Error(Note.Empty(), messsage = e.message))
+        }
+    }
 }

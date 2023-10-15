@@ -26,4 +26,6 @@ interface NoteDao {
     suspend fun delete(note: Note)
 
     fun getNotesFlow(): Flow<List<Note>>
+
+    fun getNoteAsFlow(noteId: String): Flow<Note>
 }
