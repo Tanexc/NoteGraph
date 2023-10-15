@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.NoteAlt
 import androidx.compose.material.icons.outlined.Settings
@@ -51,11 +50,11 @@ import ru.tanexc.notegraph.R
 import ru.tanexc.notegraph.core.util.Screen
 import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.presentation.screen.auth.AuthScreen
-import ru.tanexc.notegraph.presentation.screen.notes.NoteListScreen
-import ru.tanexc.notegraph.presentation.screen.notes.NoteScreen
+import ru.tanexc.notegraph.presentation.screen.notes_list.NoteListScreen
+import ru.tanexc.notegraph.presentation.screen.note.NoteScreen
 import ru.tanexc.notegraph.presentation.ui.theme.NoteGraphTheme
 import ru.tanexc.notegraph.presentation.ui.theme.Typography
-import ru.tanexc.notegraph.presentation.ui.widgets.TopAppBar
+import ru.tanexc.notegraph.presentation.ui.widgets.app_bars.TopAppBar
 import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
 import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 

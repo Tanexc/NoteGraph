@@ -1,6 +1,5 @@
-package ru.tanexc.notegraph.presentation.screen.notes.view_model
+package ru.tanexc.notegraph.presentation.screen.notes_list.view_model
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

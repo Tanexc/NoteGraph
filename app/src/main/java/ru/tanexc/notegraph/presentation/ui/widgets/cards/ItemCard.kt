@@ -1,4 +1,4 @@
-package ru.tanexc.notegraph.presentation.ui.widgets
+package ru.tanexc.notegraph.presentation.ui.widgets.cards
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

@@ -1,4 +1,4 @@
-package ru.tanexc.notegraph.presentation.ui.widgets
+package ru.tanexc.notegraph.presentation.ui.widgets.app_bars
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.CenterAlignedTopAppBar

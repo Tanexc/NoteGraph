@@ -1,4 +1,4 @@
-package ru.tanexc.notegraph.presentation.ui.widgets
+package ru.tanexc.notegraph.presentation.ui.widgets.action_button
 
 import android.graphics.drawable.shapes.Shape
 import androidx.compose.animation.AnimatedVisibility

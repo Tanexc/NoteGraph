@@ -1,4 +1,4 @@
-package ru.tanexc.notegraph.presentation.screen.notes
+package ru.tanexc.notegraph.presentation.screen.notes_list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -28,8 +28,8 @@ import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tanexc.notegraph.R
 import ru.tanexc.notegraph.domain.model.note.Note
-import ru.tanexc.notegraph.presentation.screen.notes.view_model.NoteListViewModel
-import ru.tanexc.notegraph.presentation.ui.widgets.ItemCard
+import ru.tanexc.notegraph.presentation.screen.notes_list.view_model.NoteListViewModel
+import ru.tanexc.notegraph.presentation.ui.widgets.cards.ItemCard
 import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
 import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 

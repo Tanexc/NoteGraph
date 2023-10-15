@@ -1,4 +1,4 @@
-package ru.tanexc.notegraph.presentation.screen.notes.components
+package ru.tanexc.notegraph.presentation.screen.notes_list.components
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
