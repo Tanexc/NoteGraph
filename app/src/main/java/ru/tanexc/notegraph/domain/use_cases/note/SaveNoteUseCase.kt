@@ -9,5 +9,5 @@ import javax.inject.Inject
 class SaveNoteUseCase @Inject constructor(
     private val repository: NoteRepository
 ) {
-    operator fun invoke(note: Note): Flow<Action<Note?>> = repository.save(note)
+    operator fun invoke(note: Note): Flow<Action<Unit>> = repository.save(note)
 }

@@ -30,22 +30,6 @@ class NoteDaoImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : NoteDao {
 
-    override suspend fun save(note: Note): Note? =
-        fireStore
-            .collection("user")
-            .document(dataStore.data.first()[LOCAL_USER_ID] ?: "")
-            .collection("notes")
-            .document()
-            .apply {
-                this
-                    .set(note.asFirebaseEntity().copy(documentId = this.id))
-                    .await()
-            }
-            .get()
-            .await()
-            .toObject<NoteEntity>()
-            ?.asDomain()
-
     override suspend fun getByUser(): List<Note> {
         val noteCollection = fireStore.collection("user")
             .document(dataStore.data.first()[LOCAL_USER_ID] ?: "")
@@ -107,7 +91,7 @@ class NoteDaoImpl @Inject constructor(
     }
 
 
-    override suspend fun update(note: Note) {
+    override suspend fun save(note: Note) {
         val user = fireStore
             .collection("user")
             .document(dataStore.data.first()[LOCAL_USER_ID] ?: "")

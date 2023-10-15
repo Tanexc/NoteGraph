@@ -39,16 +39,6 @@ class NoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun save(value: Note): Flow<Action<Note?>> = flow {
-        emit(Action.Loading(null))
-        runCatching {
-            val data = noteDao.save(value) ?: throw Exception("can not save note")
-            emit(Action.Success(data))
-        }.onFailure { exception ->
-            emit(Action.Error(null, messsage = exception.message))
-        }
-    }
-
     override fun delete(value: Note): Flow<Action<Unit>> = flow {
         emit(Action.Loading(Unit))
         runCatching {
@@ -59,10 +49,10 @@ class NoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun update(value: Note): Flow<Action<Unit>> = flow {
+    override fun save(value: Note): Flow<Action<Unit>> = flow {
         emit(Action.Loading(Unit))
         runCatching {
-            noteDao.update(value)
+            noteDao.save(value)
             emit(Action.Success(Unit))
         }.onFailure { exception ->
             emit(Action.Error(Unit, messsage = exception.message))

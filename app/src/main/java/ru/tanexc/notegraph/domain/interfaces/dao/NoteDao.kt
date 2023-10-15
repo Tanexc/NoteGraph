@@ -11,7 +11,7 @@ interface NoteDao {
 
     suspend fun getById(documentId: String): Note?
 
-    suspend fun update(note: Note)
+    suspend fun save(note: Note)
 
     suspend fun updateImagePiece(noteId: String, imagePiece: ImagePiece)
 
@@ -20,8 +20,6 @@ interface NoteDao {
     suspend fun deleteImagePiece(noteId: String, imagePiece: ImagePiece)
 
     suspend fun deleteTextPiece(noteId: String, textPiece: TextPiece)
-
-    suspend fun save(note: Note): Note?
 
     suspend fun delete(note: Note)
 
