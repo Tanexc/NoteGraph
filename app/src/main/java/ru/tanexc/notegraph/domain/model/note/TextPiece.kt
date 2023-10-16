@@ -18,18 +18,26 @@ data class TextPiece(
     val label: String?,
     val text: String,
     val textStyle: TextStyle,
-): Domain, NotePiece {
+) : Domain, NotePiece {
 
 
     companion object {
-        fun empty() = TextPiece(
-            documentId = "",
-            offset = IntOffset(0,0),
-            size = IntSize(264, 104),
-            cornerRadius = 16,
-            label = null,
-            text = "",
-            textStyle = Typography.labelMedium
+        fun empty(
+            documentId: String = "",
+            offset: IntOffset = IntOffset(0, 0),
+            size: IntSize = IntSize(264, 104),
+            cornerRadius: Int = 16,
+            label: String? = null,
+            text: String = "",
+            textStyle: TextStyle = Typography.labelMedium
+        ): TextPiece = TextPiece(
+            documentId = documentId,
+            offset = offset,
+            size = size,
+            cornerRadius = cornerRadius,
+            label = label,
+            text = text,
+            textStyle = textStyle
         )
     }
 
