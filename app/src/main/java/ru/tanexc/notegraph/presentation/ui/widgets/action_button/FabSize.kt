@@ -1,4 +1,4 @@
-package ru.tanexc.notegraph.presentation.util
+package ru.tanexc.notegraph.presentation.ui.widgets.action_button
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButtonDefaults

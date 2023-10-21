@@ -2,6 +2,9 @@ package ru.tanexc.notegraph.presentation.screen.main
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +20,7 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -48,15 +52,21 @@ import dev.olshevski.navigation.reimagined.rememberNavController
 import kotlinx.coroutines.launch
 import ru.tanexc.notegraph.R
 import ru.tanexc.notegraph.core.util.Screen
+import ru.tanexc.notegraph.core.util.SheetContent
 import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.presentation.screen.auth.AuthScreen
 import ru.tanexc.notegraph.presentation.screen.notes_list.NoteListScreen
 import ru.tanexc.notegraph.presentation.screen.note.NoteScreen
+import ru.tanexc.notegraph.presentation.screen.notes_list.components.ImagePieceSheetContent
+import ru.tanexc.notegraph.presentation.screen.notes_list.components.NoteSheetContent
+import ru.tanexc.notegraph.presentation.screen.notes_list.components.TextPieceSheetContent
 import ru.tanexc.notegraph.presentation.ui.theme.NoteGraphTheme
 import ru.tanexc.notegraph.presentation.ui.theme.Typography
 import ru.tanexc.notegraph.presentation.ui.widgets.app_bars.TopAppBar
+import ru.tanexc.notegraph.presentation.util.LocalBottomSheetState
 import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
 import ru.tanexc.notegraph.presentation.util.rememberAppBarState
+import ru.tanexc.notegraph.presentation.util.rememberBottomSheetState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,6 +79,7 @@ fun NoteGraphApp(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val topAppBarState = rememberAppBarState()
+    val bottomSheetState = rememberBottomSheetState()
     val colorScheme = rememberColorScheme(
         isDarkTheme = LocalSettingsProvider.current.isDarkMode,
         amoledMode = LocalSettingsProvider.current.amoledMode,
@@ -189,7 +200,7 @@ fun NoteGraphApp(
                                 NoteScreen(
                                     modifier = Modifier
                                         .padding(innerPaddings),
-                                    note = note
+                                    noteId = note.documentId
                                 )
                             }
                         }
@@ -199,7 +210,16 @@ fun NoteGraphApp(
 
             }
         }
-
+        AnimatedVisibility(
+            visible = bottomSheetState.current.visibility,
+            enter = slideInVertically { it },
+            exit = slideOutVertically { it }
+        ) {
+            ModalBottomSheet(
+                onDismissRequest = { },
+                content = bottomSheetState.current.content
+            )
+        }
     }
 
     BackHandler(enabled = true) {

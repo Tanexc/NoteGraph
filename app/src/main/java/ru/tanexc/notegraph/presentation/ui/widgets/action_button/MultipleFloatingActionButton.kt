@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowColumn
 import com.google.accompanist.flowlayout.FlowCrossAxisAlignment
 import ru.tanexc.notegraph.R
-import ru.tanexc.notegraph.presentation.util.FabSize
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

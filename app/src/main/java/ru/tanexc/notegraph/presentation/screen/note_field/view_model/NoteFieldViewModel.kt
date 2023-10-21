@@ -1,19 +1,16 @@
 package ru.tanexc.notegraph.presentation.screen.note_field.view_model
 
-import android.content.Context
+import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import coil.ImageLoader
-import coil.request.ImageRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.tanexc.notegraph.core.util.Action
+import ru.tanexc.notegraph.domain.interfaces.image.ImageHelper
 import ru.tanexc.notegraph.domain.model.note.ImagePiece
 import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.domain.model.note.TextPiece
@@ -29,7 +26,8 @@ class NoteFieldViewModel @Inject constructor(
     private val updateTextPieceUseCase: UpdateTextPieceUseCase,
     private val updateImagePieceUseCase: UpdateImagePieceUseCase,
     private val deleteTextPieceUseCase: DeleteTextPieceUseCase,
-    private val deleteImagePieceUseCase: DeleteImagePieceUseCase
+    private val deleteImagePieceUseCase: DeleteImagePieceUseCase,
+    private val imageHelper: ImageHelper
 ) : ViewModel() {
     private val _synchronizing: MutableState<Action<Unit>?> = mutableStateOf(Action.NotRunning(Unit))
     val synchronizing: Action<Unit>? by _synchronizing
@@ -94,16 +92,12 @@ class NoteFieldViewModel @Inject constructor(
         }
     }
 
-    fun createImagePiece(imageRequest: ImageRequest, context: Context) {
+    fun createImagePiece(imageUri: Uri) {
         val pieceId = UUID.randomUUID().toString()
-        val loader = ImageLoader(context).newBuilder().build()
         viewModelScope.launch(Dispatchers.IO) {
-            val imageBitmap =
-                loader.execute(imageRequest).drawable?.toBitmapOrNull()?.asImageBitmap()
+            val imageBitmap = imageHelper.getImageByUri(imageUri)
             saveImagePiece(
-                ImagePiece
-                    .empty()
-                    .copy(documentId = pieceId, imageBitmap = imageBitmap)
+                ImagePiece.empty(documentId = pieceId, imageBitmap = imageBitmap)
             )
             _focusedPieceId.value = pieceId
         }

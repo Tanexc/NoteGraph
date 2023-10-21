@@ -1,6 +1,5 @@
 package ru.tanexc.notegraph.presentation.ui.widgets.action_button
 
-import android.graphics.drawable.shapes.Shape
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import ru.tanexc.notegraph.presentation.util.FabSize
 
 @Composable
 fun ExpandableFloatingActionButton(
