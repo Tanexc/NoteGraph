@@ -11,6 +11,8 @@ interface NoteDao {
 
     suspend fun getById(documentId: String): Note?
 
+    suspend fun create(): Note?
+
     suspend fun save(note: Note)
 
     suspend fun updateImagePiece(noteId: String, imagePiece: ImagePiece)

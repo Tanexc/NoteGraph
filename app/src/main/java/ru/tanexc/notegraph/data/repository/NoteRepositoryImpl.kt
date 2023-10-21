@@ -49,6 +49,16 @@ class NoteRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun create(): Flow<Action<Note?>> = flow {
+        emit(Action.Loading(null))
+        runCatching {
+            val note = noteDao.create()
+            emit(Action.Success(note))
+        }.onFailure { exception ->
+            emit(Action.Error(null, messsage = exception.message))
+        }
+    }
+
     override fun save(value: Note): Flow<Action<Unit>> = flow {
         emit(Action.Loading(Unit))
         runCatching {

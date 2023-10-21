@@ -99,7 +99,24 @@ class NoteDaoImpl @Inject constructor(
             .document(note.documentId)
             .update(note.asFirebaseEntity().asMap())
             .await()
+    }
 
+    override suspend fun create(): Note? {
+        val user = fireStore
+            .collection("user")
+            .document(dataStore.data.first()[LOCAL_USER_ID] ?: "")
+        val document = user
+            .collection("notes")
+            .document()
+        user.collection("notes")
+            .document(document.id)
+            .set(Note.Empty().asFirebaseEntity().asMap())
+            .await()
+        return user.collection("notes")
+            .document(document.id)
+            .get()
+            .await()
+            .toObject()
     }
 
     override suspend fun updateImagePiece(noteId: String, imagePiece: ImagePiece) {
@@ -188,11 +205,12 @@ class NoteDaoImpl @Inject constructor(
 
     override fun getNoteAsFlow(noteId: String): Flow<Note> = callbackFlow {
         dataStore.data.first()[LOCAL_USER_ID]?.let { id ->
-            val listener = fireStore
+            val document = fireStore
                 .collection("user")
                 .document(id)
                 .collection("notes")
                 .document(noteId)
+            val listener = document
                 .addSnapshotListener { value, error ->
                     CoroutineScope(this.coroutineContext).launch {
                         getById(noteId)?.let {
@@ -200,6 +218,10 @@ class NoteDaoImpl @Inject constructor(
                         }
                     }
                 }
+            val note = document.get().await().toObject<Note>()
+            note?.let {
+                trySend(it)
+            }
             awaitClose { listener.remove() }
         }
         awaitClose {  }
