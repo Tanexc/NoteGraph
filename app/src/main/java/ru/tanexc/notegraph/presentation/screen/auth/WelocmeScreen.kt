@@ -116,7 +116,7 @@ fun WelocmeScreen(
                 } else {
                     CircularProgressIndicator(
                         modifier = Modifier
-                            .size(56.dp)
+                            .size(32.dp)
                             .align(CenterHorizontally)
                     )
                 }
