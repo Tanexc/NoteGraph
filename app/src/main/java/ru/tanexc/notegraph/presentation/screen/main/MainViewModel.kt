@@ -42,7 +42,7 @@ class MainViewModel @Inject constructor(
         runBlocking {
             _user.value = tryGetLocalUserUseCase()
             _currentScreen.value = when (user) {
-                is User -> Screen.Notes
+                is User -> Screen.NoteList
                 else -> Screen.Login
             }
             _settings.value = getSettingsUseCase()
@@ -52,7 +52,7 @@ class MainViewModel @Inject constructor(
             getUserAsFlowUseCase().collect {
                 _user.value = it
                 _currentScreen.value = when (user) {
-                    is User -> Screen.Notes
+                    is User -> Screen.NoteList
                     else -> Screen.Login
                 }
             }

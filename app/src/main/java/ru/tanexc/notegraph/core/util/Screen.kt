@@ -2,7 +2,7 @@ package ru.tanexc.notegraph.core.util
 
 sealed class Screen {
 
-    data object Notes : Screen()
+    data object NoteList : Screen()
 
     data object Settings : Screen()
 

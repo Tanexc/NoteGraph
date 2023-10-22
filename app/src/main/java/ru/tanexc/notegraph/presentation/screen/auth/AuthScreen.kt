@@ -37,7 +37,11 @@ fun AuthScreen(
 
     when (authOption) {
         AuthOption.WELCOME -> {
-            topAppBarState.current.updateTopAppBar(title = { Text(stringResource(R.string.app_name)) })
+            topAppBarState.current.updateTopAppBar(
+                title = { Text(stringResource(R.string.app_name)) },
+                actions = {},
+                navigationIcon = {}
+            )
             WelocmeScreen(
                 colorScheme = colorScheme,
                 onSignUp = { authOption = AuthOption.SIGN_UP },

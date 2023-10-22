@@ -41,6 +41,7 @@ class NoteViewModel @Inject constructor(
                         _note.value = it.data
                         _synchronizing.value = Action.Success(Unit)
                     }
+
                     is Action.Error -> _synchronizing.value = Action.Error(Unit, it.messsage)
                     else -> _synchronizing.value = Action.Loading(Unit)
                 }

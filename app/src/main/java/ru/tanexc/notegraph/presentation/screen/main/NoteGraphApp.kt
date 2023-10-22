@@ -52,18 +52,14 @@ import dev.olshevski.navigation.reimagined.rememberNavController
 import kotlinx.coroutines.launch
 import ru.tanexc.notegraph.R
 import ru.tanexc.notegraph.core.util.Screen
-import ru.tanexc.notegraph.core.util.SheetContent
 import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.presentation.screen.auth.AuthScreen
 import ru.tanexc.notegraph.presentation.screen.notes_list.NoteListScreen
 import ru.tanexc.notegraph.presentation.screen.note.NoteScreen
-import ru.tanexc.notegraph.presentation.screen.notes_list.components.ImagePieceSheetContent
-import ru.tanexc.notegraph.presentation.screen.notes_list.components.NoteSheetContent
-import ru.tanexc.notegraph.presentation.screen.notes_list.components.TextPieceSheetContent
 import ru.tanexc.notegraph.presentation.ui.theme.NoteGraphTheme
 import ru.tanexc.notegraph.presentation.ui.theme.Typography
 import ru.tanexc.notegraph.presentation.ui.widgets.app_bars.TopAppBar
-import ru.tanexc.notegraph.presentation.util.LocalBottomSheetState
+import ru.tanexc.notegraph.presentation.util.AppBarParams
 import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
 import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 import ru.tanexc.notegraph.presentation.util.rememberBottomSheetState
@@ -110,8 +106,8 @@ fun NoteGraphApp(
                         NavigationDrawerItem(
                             icon = { Icon(Icons.Outlined.NoteAlt, null) },
                             label = { Text(stringResource(R.string.notes)) },
-                            selected = viewModel.currentScreen is Screen.Notes,
-                            onClick = { viewModel.updateCurrentScreen(Screen.Notes) },
+                            selected = viewModel.currentScreen is Screen.NoteList,
+                            onClick = { viewModel.updateCurrentScreen(Screen.NoteList) },
                             shape = RoundedCornerShape(0, 50, 50, 0)
                         )
                         NavigationDrawerItem(
@@ -158,7 +154,7 @@ fun NoteGraphApp(
                             )
                         }
 
-                        Screen.Notes -> {
+                        Screen.NoteList -> {
                             topAppBarState.current.updateTopAppBar(
                                 title = { Text(stringResource(R.string.notes)) },
                                 navigationIcon = {
@@ -174,7 +170,6 @@ fun NoteGraphApp(
                                     viewModel.updateCurrentScreen(Screen.Note)
                                 }
                             )
-
                         }
 
                         Screen.Settings -> {
@@ -192,7 +187,7 @@ fun NoteGraphApp(
                             selectedNote?.let { note ->
                                 topAppBarState.current.updateTopAppBar(
                                     navigationIcon = {
-                                        IconButton(onClick = { scope.launch { viewModel.updateCurrentScreen(Screen.Notes) } }) {
+                                        IconButton(onClick = { scope.launch { viewModel.updateCurrentScreen(Screen.NoteList) } }) {
                                             Icon(Icons.AutoMirrored.Outlined.ArrowBack, null)
                                         }
                                     }
