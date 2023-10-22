@@ -1,5 +1,6 @@
 package ru.tanexc.notegraph.data.firebase.dao
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -8,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.tasks.await
 import ru.tanexc.notegraph.data.firebase.entity.UserEntity
 import ru.tanexc.notegraph.data.keys.Keys.LOCAL_USER_ID
@@ -39,12 +41,19 @@ class UserDaoImpl @Inject constructor(
         }
     }
 
-    override suspend fun getLocal(): User? = collection
-        .get(Source.CACHE)
-        .await()
-        .toObjects<UserEntity>()
-        .firstOrNull()
-        ?.asDomain()
+    override suspend fun getLocal(): User? =
+        runCatching {
+            dataStore.data.firstOrNull()?.let {
+                collection
+                    .whereEqualTo("uid", it[LOCAL_USER_ID])
+                    .get(Source.CACHE)
+                    .await()
+                    .toObjects<UserEntity>()
+                    .firstOrNull()
+                    ?.asDomain()
+            }
+        }.getOrNull()
+
 
     override suspend fun getRemote(uid: String): User? = if (uid != "") {
         collection

@@ -67,7 +67,7 @@ fun NoteListScreen(
         }
     )
 
-    Box(Modifier.fillMaxSize()) {
+    Box(modifier.fillMaxSize()) {
         LazyColumn(Modifier.fillMaxSize()) {
             items(viewModel.noteList) {
                 Spacer(modifier = Modifier.size(16.dp))

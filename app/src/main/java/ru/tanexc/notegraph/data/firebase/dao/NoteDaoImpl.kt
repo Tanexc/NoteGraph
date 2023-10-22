@@ -102,21 +102,23 @@ class NoteDaoImpl @Inject constructor(
     }
 
     override suspend fun create(): Note? {
-        val user = fireStore
-            .collection("user")
-            .document(dataStore.data.first()[LOCAL_USER_ID] ?: "")
-        val document = user
-            .collection("notes")
-            .document()
-        user.collection("notes")
-            .document(document.id)
-            .set(Note.Empty().asFirebaseEntity().asMap())
-            .await()
-        return user.collection("notes")
-            .document(document.id)
-            .get()
-            .await()
-            .toObject()
+        return dataStore.data.first()[LOCAL_USER_ID]?.let { uid ->
+            val user = fireStore
+                .collection("user")
+                .document(uid)
+            val document = user
+                .collection("notes")
+                .document()
+            user.collection("notes")
+                .document(document.id)
+                .set(Note.Empty().copy(documentId = document.id).asFirebaseEntity().asMap())
+                .await()
+            user.collection("notes")
+                .document(document.id)
+                .get()
+                .await()
+                .toObject()
+        }
     }
 
     override suspend fun updateImagePiece(noteId: String, imagePiece: ImagePiece) {
@@ -199,7 +201,7 @@ class NoteDaoImpl @Inject constructor(
                 }
             awaitClose { listener.remove() }
         }
-        awaitClose {  }
+        awaitClose { }
 
     }
 
@@ -224,7 +226,7 @@ class NoteDaoImpl @Inject constructor(
             }
             awaitClose { listener.remove() }
         }
-        awaitClose {  }
+        awaitClose { }
     }
 
 }

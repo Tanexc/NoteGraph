@@ -1,5 +1,6 @@
 package ru.tanexc.notegraph.presentation.screen.notes_list.view_model
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -72,6 +73,7 @@ class NoteListViewModel @Inject constructor(
                         _synchronizing.value = Action.Loading(Unit)
                     }
                     is Action.Error -> {
+                        Log.i("CUM", "${action.messsage}")
                         _synchronizing.value = Action.Error(Unit, messsage = action.messsage)
                     }
                     else -> {}

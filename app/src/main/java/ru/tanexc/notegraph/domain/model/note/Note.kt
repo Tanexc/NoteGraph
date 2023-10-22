@@ -1,16 +1,14 @@
 package ru.tanexc.notegraph.domain.model.note
 
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.IntOffset
 import ru.tanexc.notegraph.data.firebase.entity.NoteEntity
 import ru.tanexc.notegraph.domain.interfaces.data_presenter.Domain
 
 data class Note(
-    val documentId: String,
-    val label: String,
-    val imagePieces: List<ImagePiece>,
-    val textPieces: List<TextPiece>,
-    val dependsOn: String,
+    val documentId: String = "",
+    val label: String = "",
+    val imagePieces: List<ImagePiece> = emptyList(),
+    val textPieces: List<TextPiece> = emptyList(),
+    val dependsOn: String = "",
     val endTo: Long = 0L
 ): Domain {
 
