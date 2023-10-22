@@ -25,13 +25,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import ru.tanexc.notegraph.R
 import ru.tanexc.notegraph.domain.model.note.ImagePiece
 import ru.tanexc.notegraph.presentation.ui.theme.Typography
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ImagePieceComponent(
     modifier: Modifier = Modifier,
@@ -71,9 +71,9 @@ fun ImagePieceComponent(
                                     piece.label,
                                     modifier = Modifier
                                         .padding(16.dp, 0.dp)
-                                        .fillMaxWidth()
-                                        .basicMarquee(2),
-                                    fontSize = Typography.headlineSmall.fontSize
+                                        .fillMaxWidth(),
+                                    fontSize = Typography.headlineSmall.fontSize,
+                                    overflow = TextOverflow.Ellipsis
                                 )
                             }
                         }?: Row {}

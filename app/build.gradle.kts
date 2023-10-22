@@ -64,14 +64,14 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
     // Compose
-    implementation("androidx.compose.ui:ui:1.6.0-alpha07")
-    implementation("androidx.compose.material3:material3:1.2.0-alpha09")
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha09")
-    implementation("androidx.compose.material:material-icons-core:1.6.0-alpha07")
-    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha07")
-    implementation("androidx.compose.foundation:foundation:1.6.0-alpha07")
-    implementation("androidx.compose.ui:ui-util:1.6.0-alpha07")
-    implementation("androidx.compose.material:material:1.5.3")
+    implementation("androidx.compose.ui:ui:1.6.0-alpha08")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha10")
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha10")
+    implementation("androidx.compose.material:material-icons-core:1.6.0-alpha08")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha08")
+    implementation("androidx.compose.foundation:foundation:1.6.0-alpha08")
+    implementation("androidx.compose.ui:ui-util:1.6.0-alpha08")
+    implementation("androidx.compose.material:material:1.5.4")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
@@ -79,7 +79,7 @@ dependencies {
 
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.48")
-    implementation("com.google.firebase:firebase-database-ktx:20.2.2")
+    implementation("com.google.firebase:firebase-database-ktx:20.3.0")
     ksp("com.google.dagger:hilt-android-compiler:2.48")
 
     // Firebase
@@ -93,10 +93,10 @@ dependencies {
     // Google Play auth
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
-    //Dynamic theme
+    // Dynamic theme
     implementation("com.github.t8rin:dynamictheme:1.0.3")
 
-    //Free scroll
+    // Free scroll
     implementation("com.github.chihsuanwu:compose-free-scroll:0.2.1")
 
     // ComposeShadowPlus
@@ -114,7 +114,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-pager-indicators:0.29.1-alpha")
     implementation("com.google.accompanist:accompanist-adaptive:0.29.1-alpha")
 
-    //Coil
+    // Coil
     implementation("io.coil-kt:coil:2.4.0")
     implementation("io.coil-kt:coil-compose:2.4.0")
 

@@ -1,9 +1,6 @@
 package ru.tanexc.notegraph.presentation.ui.widgets.note
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,13 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import ru.tanexc.notegraph.domain.model.note.TextPiece
 import ru.tanexc.notegraph.presentation.ui.theme.Typography
 
-@OptIn(ExperimentalFoundationApi::class)
-@SuppressLint("SuspiciousIndentation")
 @Composable
 fun TextPieceComponent(
     modifier: Modifier = Modifier,
@@ -39,8 +35,6 @@ fun TextPieceComponent(
     defaultBackground: Color,
     actions: (@Composable (RowScope.() -> Unit))?
 ) {
-
-
     DraggableComponent(
         startOffset = piece.offset,
         enabled = focused,
@@ -69,9 +63,9 @@ fun TextPieceComponent(
                                     piece.label,
                                     modifier = Modifier
                                         .padding(16.dp, 0.dp)
-                                        .fillMaxWidth()
-                                        .basicMarquee(2),
-                                    fontSize = Typography.headlineSmall.fontSize
+                                        .fillMaxWidth(),
+                                    fontSize = Typography.headlineSmall.fontSize,
+                                    overflow = TextOverflow.Ellipsis
                                 )
                             }
                         }?: Row {}

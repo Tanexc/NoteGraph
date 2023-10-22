@@ -5,6 +5,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -17,18 +18,24 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
+import ru.tanexc.notegraph.core.util.Action
 import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.presentation.screen.note_field.components.ImagePieceSheetContent
 import ru.tanexc.notegraph.presentation.screen.note_field.components.TextPieceSheetContent
@@ -72,8 +79,8 @@ fun NoteField(
     viewModel.note?.let { currentNote ->
         Box(modifier.fillMaxSize()) {
             ExpandableField(
-                initialSize = IntSize(564, 728),
-                onSizeChanged = { },
+                initialSize = IntSize(560, 720),
+                onSizeChanged = { }
             ) {
                 currentNote.textPieces.forEach { item ->
                     TextPieceComponent(
@@ -112,7 +119,14 @@ fun NoteField(
                                     null
                                 )
                             }
+
                             Spacer(Modifier.weight(1f))
+                            when(viewModel.synchronizing) {
+                                is Action.Loading -> {
+                                    CircularProgressIndicator(Modifier.size(24.dp))
+                                }
+                                else -> {}
+                            }
                             IconButton(onClick = { viewModel.deleteTextPiece(item.documentId) }) {
                                 Icon(
                                     Icons.Outlined.Delete,
@@ -161,6 +175,12 @@ fun NoteField(
                                 )
                             }
                             Spacer(modifier = Modifier.weight(1f))
+                            when(viewModel.synchronizing) {
+                                is Action.Loading -> {
+                                    CircularProgressIndicator(Modifier.size(24.dp))
+                                }
+                                else -> {}
+                            }
                             IconButton(onClick = { viewModel.deleteImagePiece(item.documentId) }) {
                                 Icon(
                                     Icons.Outlined.Delete,
@@ -182,6 +202,7 @@ fun NoteField(
                         null,
                         modifier = Modifier.size((it))
                     )
+
                 },
                 options = listOf(
                     FabOption(
