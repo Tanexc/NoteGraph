@@ -14,10 +14,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import ru.tanexc.notegraph.R
 import ru.tanexc.notegraph.domain.model.note.ImagePiece
+import ru.tanexc.notegraph.presentation.ui.theme.Typography
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -46,54 +49,64 @@ fun ImagePieceComponent(
         onRelease = onOffsetChange
     ) {
         Column(modifier.width(piece.size.width.dp)) {
-            actions?.let {
-                if (focused)
-                    Row(
-                        Modifier.fillMaxWidth().height(48.dp),
-                        content = actions
-                    )
-                else Text(
-                    piece.label?: "Untitled",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .basicMarquee(2)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(colorScheme.primary.copy(0.5f))
-                )
-            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp),
+                content =
+                if (focused && actions != null) {
+                    actions
+                } else {
+                    {
+                        piece.label?.let {
+                            Row(
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(0.dp, 4.dp)
+                                    .clip(RoundedCornerShape(6.dp))
+                                    .background(colorScheme.primary.copy(0.5f))
+                            ) {
+                                Text(
+                                    piece.label,
+                                    modifier = Modifier
+                                        .padding(16.dp, 0.dp)
+                                        .fillMaxWidth()
+                                        .basicMarquee(2),
+                                    fontSize = Typography.headlineSmall.fontSize
+                                )
+                            }
+                        }?: Row {}
+                    }
+                }
+            )
             Box(
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .height(piece.size.height.dp)
                     .run {
                         if (it) this.border(
-                                width = 3.dp,
-                                shape = RoundedCornerShape(piece.cornerRadius.dp),
-                                color = colorScheme.tertiary.copy(0.7f)
-                            )
+                            width = 3.dp,
+                            shape = RoundedCornerShape(piece.cornerRadius.dp),
+                            color = colorScheme.tertiary.copy(0.7f)
+                        )
                         else this
                     }
             ) {
 
                 piece.imageBitmap?.let {
-                    Image(piece.imageBitmap, piece.contentDescription,
+                    Image(
+                        piece.imageBitmap, piece.contentDescription,
                         Modifier
                             .clip(RoundedCornerShape(piece.cornerRadius.dp))
                             .fillMaxSize()
                             .background(
                                 shape = RoundedCornerShape(piece.cornerRadius.dp),
                                 color = Color.Transparent
-                            ), contentScale = ContentScale.Crop)
+                            ),
+                        contentScale = ContentScale.Crop
+                    )
                 }
-                Text(
-                    piece.label?: stringResource(R.string.untitled),
-                    style = piece.textStyle,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                )
-
             }
         }
 

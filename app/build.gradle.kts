@@ -112,6 +112,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-placeholder-material:0.29.1-alpha")
     implementation("com.google.accompanist:accompanist-pager:0.29.1-alpha")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.29.1-alpha")
+    implementation("com.google.accompanist:accompanist-adaptive:0.29.1-alpha")
 
     //Coil
     implementation("io.coil-kt:coil:2.4.0")

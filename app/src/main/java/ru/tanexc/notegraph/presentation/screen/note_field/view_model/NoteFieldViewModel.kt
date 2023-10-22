@@ -1,6 +1,7 @@
 package ru.tanexc.notegraph.presentation.screen.note_field.view_model
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,12 +9,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.launch
 import ru.tanexc.notegraph.core.util.Action
 import ru.tanexc.notegraph.domain.interfaces.image.ImageHelper
 import ru.tanexc.notegraph.domain.model.note.ImagePiece
 import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.domain.model.note.TextPiece
+import ru.tanexc.notegraph.domain.use_cases.note.GetPiecesAsFlowUseCase
 import ru.tanexc.notegraph.domain.use_cases.piece.DeleteImagePieceUseCase
 import ru.tanexc.notegraph.domain.use_cases.piece.DeleteTextPieceUseCase
 import ru.tanexc.notegraph.domain.use_cases.piece.UpdateImagePieceUseCase
@@ -27,6 +30,7 @@ class NoteFieldViewModel @Inject constructor(
     private val updateImagePieceUseCase: UpdateImagePieceUseCase,
     private val deleteTextPieceUseCase: DeleteTextPieceUseCase,
     private val deleteImagePieceUseCase: DeleteImagePieceUseCase,
+    private val getPiecesAsFlowUseCase: GetPiecesAsFlowUseCase,
     private val imageHelper: ImageHelper
 ) : ViewModel() {
     private val _synchronizing: MutableState<Action<Unit>?> = mutableStateOf(Action.NotRunning(Unit))
@@ -40,6 +44,20 @@ class NoteFieldViewModel @Inject constructor(
 
     fun initializeNote(value: Note) {
         _note.value = value
+        viewModelScope.launch(Dispatchers.IO) {
+            getPiecesAsFlowUseCase(value.documentId).collect {
+                when (it) {
+                    is Action.Success -> {
+                        _note.value = it.data
+                    }
+                    is Action.Error -> {
+                        _synchronizing.value = Action.Error(Unit, messsage = it.messsage)
+                    }
+
+                    else -> {}
+                }
+            }
+        }
     }
 
     fun deleteTextPiece(id: String) {

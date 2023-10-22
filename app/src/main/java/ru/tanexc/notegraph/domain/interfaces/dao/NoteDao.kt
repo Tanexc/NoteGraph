@@ -28,4 +28,6 @@ interface NoteDao {
     fun getNotesFlow(): Flow<List<Note>>
 
     fun getNoteAsFlow(noteId: String): Flow<Note>
+
+    fun getPiecesAsFlow(noteId: String): Flow<Note>
 }

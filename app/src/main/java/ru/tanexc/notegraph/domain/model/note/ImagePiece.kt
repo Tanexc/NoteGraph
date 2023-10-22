@@ -29,7 +29,7 @@ data class ImagePiece(
     companion object {
         fun empty(documentId: String = "",
                   offset: IntOffset = IntOffset(0,0),
-                  size: IntSize = IntSize(264, 104),
+                  size: IntSize = IntSize(240, 320),
                   cornerRadius: Int = 16,
                   alpha: Float = 1f,
                   label: String? = null,

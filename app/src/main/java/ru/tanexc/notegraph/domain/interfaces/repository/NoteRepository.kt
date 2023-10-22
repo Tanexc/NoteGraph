@@ -30,4 +30,6 @@ interface NoteRepository {
 
     fun getNoteAsFlow(noteId: String): Flow<Action<Note?>>
 
+    fun getPiecesAsFlow(noteId: String): Flow<Action<Note?>>
+
 }

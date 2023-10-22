@@ -118,4 +118,15 @@ class NoteRepositoryImpl @Inject constructor(
             emit(Action.Error(Note.Empty(), messsage = e.message))
         }
     }
+
+    override fun getPiecesAsFlow(noteId: String): Flow<Action<Note?>> = flow {
+        emit(Action.Loading(null))
+        try {
+            noteDao.getPiecesAsFlow(noteId).collect {
+                emit(Action.Success(it))
+            }
+        } catch (e: Exception) {
+            emit(Action.Error(Note.Empty(), messsage = e.message))
+        }
+    }
 }

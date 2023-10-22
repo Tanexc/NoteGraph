@@ -6,7 +6,7 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="name">Name</string>
     <string name="sign_up">Sign up</string>
-    <string name="or">Or</string>
+    <string name="or">or</string>
     <string name="auth_as_guest">Auth as guest</string>
     <string name="email_invalid">Invalid email</string>
     <string name="password_invalid">Invalid password</string>

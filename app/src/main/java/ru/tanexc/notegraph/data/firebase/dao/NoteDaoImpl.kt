@@ -1,5 +1,6 @@
 package ru.tanexc.notegraph.data.firebase.dao
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.google.firebase.firestore.CollectionReference
@@ -9,6 +10,7 @@ import com.google.firebase.firestore.core.ListenerRegistrationImpl
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -141,7 +143,6 @@ class NoteDaoImpl @Inject constructor(
             .document(dataStore.data.first()[LOCAL_USER_ID] ?: "")
             .collection("notes")
             .document(noteId)
-
         note
             .collection("text_pieces")
             .document(textPiece.documentId)
@@ -193,7 +194,7 @@ class NoteDaoImpl @Inject constructor(
                 .collection("user")
                 .document(id)
                 .collection("notes")
-                .addSnapshotListener { value, error ->
+                .addSnapshotListener { _, _ ->
                     CoroutineScope(this.coroutineContext).launch {
                         val notes = getByUser()
                         trySend(notes)
@@ -213,8 +214,8 @@ class NoteDaoImpl @Inject constructor(
                 .collection("notes")
                 .document(noteId)
             val listener = document
-                .addSnapshotListener { value, error ->
-                    CoroutineScope(this.coroutineContext).launch {
+                .addSnapshotListener { _, _ ->
+                    CoroutineScope(this.coroutineContext).launch(Dispatchers.IO) {
                         getById(noteId)?.let {
                             trySend(it)
                         }
@@ -225,6 +226,39 @@ class NoteDaoImpl @Inject constructor(
                 trySend(it)
             }
             awaitClose { listener.remove() }
+        }
+        awaitClose { }
+    }
+
+    override fun getPiecesAsFlow(noteId: String): Flow<Note> = callbackFlow {
+        dataStore.data.first()[LOCAL_USER_ID]?.let { id ->
+            val note = fireStore
+                .collection("user")
+                .document(id)
+                .collection("notes")
+                .document(noteId)
+            val textPieceListener = note
+                .collection("text_pieces")
+                .addSnapshotListener { _, _ ->
+                    CoroutineScope(this.coroutineContext).launch(Dispatchers.IO) {
+                        getById(noteId)?.let {
+                            trySend(it)
+                        }
+                    }
+                }
+            val imagePieceListener = note
+                .collection("image_pieces")
+                .addSnapshotListener { _, _ ->
+                    CoroutineScope(this.coroutineContext).launch(Dispatchers.IO) {
+                        getById(noteId)?.let {
+                            trySend(it)
+                        }
+                    }
+                }
+            awaitClose {
+                textPieceListener.remove()
+                imagePieceListener.remove()
+            }
         }
         awaitClose { }
     }

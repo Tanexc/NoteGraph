@@ -1,5 +1,6 @@
 package ru.tanexc.notegraph.presentation.ui.widgets.note
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -24,71 +25,74 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.chihsuanwu.freescroll.FreeScrollState
 import com.chihsuanwu.freescroll.freeScroll
+import com.chihsuanwu.freescroll.rememberFreeScrollState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun ExpandableField(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     initialSize: IntSize,
-    scrollState: FreeScrollState,
     onSizeChanged: (IntSize) -> Unit,
     content: @Composable BoxScope.() -> Unit
 ) {
     var width by remember { mutableIntStateOf(initialSize.width) }
     var height by remember { mutableIntStateOf(initialSize.height) }
 
+    val scrollState = rememberFreeScrollState()
+
     LaunchedEffect(
-        key1 = scrollState.verticalScrollState.canScrollBackward || scrollState.verticalScrollState.isScrollInProgress,
-        key2 = scrollState.horizontalScrollState.canScrollBackward || scrollState.horizontalScrollState.isScrollInProgress
+        key1 = scrollState.xValue == scrollState.xMaxValue,
+        key2 = scrollState.yValue == scrollState.yMaxValue
     ) {
-        if (!scrollState.verticalScrollState.canScrollBackward) {
-            width += 88
+        if (scrollState.xValue == scrollState.xMaxValue) {
+            width += 100
             onSizeChanged(IntSize(width, height))
         }
-        if (!scrollState.horizontalScrollState.canScrollBackward) {
-            height += 176
+        if (scrollState.yValue == scrollState.yMaxValue) {
+            height += 100
             onSizeChanged(IntSize(width, height))
         }
     }
 
-    Box(
-        modifier
-            .size(width.dp, height.dp)
-            .freeScroll(scrollState)
-    ) {
-        Row(Modifier.fillMaxSize()) {
-            repeat((width / 84)) {
-                Spacer(
-                    modifier = Modifier.size(42.dp)
-                )
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(1.dp)
-                        .background(Color.LightGray.copy(0.05f))
-                )
-                Spacer(
-                    modifier = Modifier.size(42.dp)
-                )
+    Box(Modifier.freeScroll(scrollState)) {
+        Box(
+            modifier
+                .size(width.dp, height.dp)
+        ) {
+            Row(Modifier.fillMaxSize()) {
+                repeat((width / 80)) {
+                    Spacer(
+                        modifier = Modifier.size(40.dp)
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(1.dp)
+                            .background(Color.LightGray.copy(0.05f))
+                    )
+                    Spacer(
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
+            }
+            Column(Modifier.fillMaxSize()) {
+                repeat((height / 80)) {
+                    Spacer(
+                        modifier = Modifier.size(40.dp)
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(Color.LightGray.copy(0.05f))
+                    )
+                    Spacer(
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
             }
         }
-
-        Column(Modifier.fillMaxSize()) {
-            repeat((height / 84)) {
-                Spacer(
-                    modifier = Modifier.size(42.dp)
-                )
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color.LightGray.copy(0.05f))
-                )
-                Spacer(
-                    modifier = Modifier.size(42.dp)
-                )
-            }
-        }
-
         content()
     }
+
 }

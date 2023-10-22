@@ -75,7 +75,7 @@ fun NoteGraphApp(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val topAppBarState = rememberAppBarState()
-    val bottomSheetState = rememberBottomSheetState()
+    val bottomSheetState = rememberBottomSheetState().current
     val colorScheme = rememberColorScheme(
         isDarkTheme = LocalSettingsProvider.current.isDarkMode,
         amoledMode = LocalSettingsProvider.current.amoledMode,
@@ -206,13 +206,13 @@ fun NoteGraphApp(
             }
         }
         AnimatedVisibility(
-            visible = bottomSheetState.current.visibility,
+            visible = bottomSheetState.visibility,
             enter = slideInVertically { it },
             exit = slideOutVertically { it }
         ) {
             ModalBottomSheet(
-                onDismissRequest = { },
-                content = bottomSheetState.current.content
+                onDismissRequest = { bottomSheetState.disable() },
+                content = bottomSheetState.content
             )
         }
     }

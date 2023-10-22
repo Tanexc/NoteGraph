@@ -25,7 +25,7 @@ data class TextPiece(
         fun empty(
             documentId: String = "",
             offset: IntOffset = IntOffset(0, 0),
-            size: IntSize = IntSize(264, 104),
+            size: IntSize = IntSize(240, 320),
             cornerRadius: Int = 16,
             label: String? = null,
             text: String = "",

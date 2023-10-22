@@ -6,7 +6,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -18,16 +20,15 @@ import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.chihsuanwu.freescroll.rememberFreeScrollState
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
-import ru.tanexc.notegraph.core.util.Action
 import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.presentation.screen.note_field.components.ImagePieceSheetContent
 import ru.tanexc.notegraph.presentation.screen.note_field.components.TextPieceSheetContent
@@ -47,8 +48,6 @@ fun NoteField(
     note: Note
 ) {
     val viewModel: NoteFieldViewModel = hiltViewModel()
-
-    val noteScrollState = rememberFreeScrollState()
     val bottomSheetState = rememberBottomSheetState().current
 
     val colorScheme = rememberColorScheme(
@@ -66,16 +65,17 @@ fun NoteField(
         }
     )
 
-    when (viewModel.synchronizing) {
-        is Action.NotRunning -> viewModel.initializeNote(note)
-        else -> {
+    LaunchedEffect(note) {
+        viewModel.initializeNote(note)
+    }
+
+    viewModel.note?.let { currentNote ->
+        Box(modifier.fillMaxSize()) {
             ExpandableField(
-                modifier = modifier,
                 initialSize = IntSize(564, 728),
-                scrollState = noteScrollState,
-                onSizeChanged = {  },
-                ) {
-                viewModel.note?.textPieces?.forEach { item ->
+                onSizeChanged = { },
+            ) {
+                currentNote.textPieces.forEach { item ->
                     TextPieceComponent(
                         modifier = Modifier
                             .combinedClickable(
@@ -89,34 +89,41 @@ fun NoteField(
                                 },
                                 onClick = {}
                             ),
-                        onOffsetChange = { viewModel.saveTextPiece(item.copy(offset = it)) },
+                        onOffsetChange = { offset ->
+                            viewModel
+                                .saveTextPiece(
+                                    viewModel.note!!.textPieces.first { it.documentId == item.documentId }
+                                        .copy(offset = offset))
+                        },
                         focused = viewModel.focusedPieceId == item.documentId,
                         piece = item,
                         colorScheme = colorScheme,
                         actions = {
-                                IconButton(onClick = {
-                                    bottomSheetState.setContent { TextPieceSheetContent(
+                            IconButton(onClick = {
+                                bottomSheetState.setContent {
+                                    TextPieceSheetContent(
                                         piece = item,
                                         onValueChanged = { viewModel.saveTextPiece(it) }
-                                    ) }
-                                }) {
-                                    Icon(
-                                        Icons.Outlined.Build,
-                                        null
                                     )
                                 }
-                                Spacer(Modifier.weight(1f))
-                                IconButton(onClick = { viewModel.deleteTextPiece(item.documentId) }) {
-                                    Icon(
-                                        Icons.Outlined.Delete,
-                                        null
-                                    )
-                                }
+                            }) {
+                                Icon(
+                                    Icons.Outlined.Build,
+                                    null
+                                )
+                            }
+                            Spacer(Modifier.weight(1f))
+                            IconButton(onClick = { viewModel.deleteTextPiece(item.documentId) }) {
+                                Icon(
+                                    Icons.Outlined.Delete,
+                                    null
+                                )
+                            }
                         },
                         defaultBackground = colorScheme.secondaryContainer.copy(0.5f)
                     )
                 }
-                viewModel.note?.imagePieces?.forEach { item ->
+                currentNote.imagePieces.forEach { item ->
                     ImagePieceComponent(
                         modifier = Modifier
                             .combinedClickable(
@@ -130,26 +137,31 @@ fun NoteField(
                                 },
                                 onClick = {}
                             ),
-                        onOffsetChange = {
-                            viewModel.saveImagePiece(item.copy(offset = it))
+                        onOffsetChange = { offset ->
+                            viewModel
+                                .saveImagePiece(
+                                    viewModel.note!!.imagePieces.first { it.documentId == item.documentId }
+                                        .copy(offset = offset))
                         },
                         focused = viewModel.focusedPieceId == item.documentId,
                         piece = item,
                         colorScheme = colorScheme,
                         actions = {
-                            IconButton(onClick = { bottomSheetState.setContent {
-                                ImagePieceSheetContent(
-                                    piece = item,
-                                    onValueChanged = { viewModel.saveImagePiece(it) }
-                                )
-                            } }) {
+                            IconButton(onClick = {
+                                bottomSheetState.setContent {
+                                    ImagePieceSheetContent(
+                                        piece = item,
+                                        onValueChanged = { viewModel.saveImagePiece(it) }
+                                    )
+                                }
+                            }) {
                                 Icon(
                                     Icons.Outlined.Build,
                                     null
                                 )
                             }
                             Spacer(modifier = Modifier.weight(1f))
-                            IconButton(onClick = {  }) {
+                            IconButton(onClick = { viewModel.deleteImagePiece(item.documentId) }) {
                                 Icon(
                                     Icons.Outlined.Delete,
                                     null
@@ -157,45 +169,46 @@ fun NoteField(
                             }
                         },
 
-                    )
+                        )
                 }
-                MultipleFloatingActionButton(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(16.dp),
-                    icon = {
-                        Icon(
-                            Icons.Outlined.Add,
-                            null,
-                            modifier = Modifier.size((it))
-                        )
-                    },
-                    options = listOf(
-                        FabOption(
-                            icon = Icons.Outlined.Image,
-                            index = 0
-                        ),
-                        FabOption(
-                            icon = Icons.AutoMirrored.Outlined.Article,
-                            index = 1
-                        )
+            }
+            MultipleFloatingActionButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                icon = {
+                    Icon(
+                        Icons.Outlined.Add,
+                        null,
+                        modifier = Modifier.size((it))
+                    )
+                },
+                options = listOf(
+                    FabOption(
+                        icon = Icons.Outlined.Image,
+                        index = 0
                     ),
-                    onOptionSelected = {
-                        when (it.index) {
-                            0 -> {
-                                imagePicker.launch(
-                                    PickVisualMediaRequest(
-                                        ActivityResultContracts.PickVisualMedia.ImageOnly
-                                    )
+                    FabOption(
+                        icon = Icons.AutoMirrored.Outlined.Article,
+                        index = 1
+                    )
+                ),
+                onOptionSelected = {
+                    when (it.index) {
+                        0 -> {
+                            imagePicker.launch(
+                                PickVisualMediaRequest(
+                                    ActivityResultContracts.PickVisualMedia.ImageOnly
                                 )
-                            }
-                            1 -> {
-                                viewModel.createTextPiece()
-                            }
+                            )
+                        }
+
+                        1 -> {
+                            viewModel.createTextPiece()
                         }
                     }
-                )
-            }
+                }
+            )
         }
     }
 }

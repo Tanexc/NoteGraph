@@ -51,27 +51,30 @@ fun TextPieceComponent(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp),
+                    .height(40.dp),
                 content =
                 if (focused && actions != null) {
                     actions
                 } else {
                     {
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(colorScheme.primary.copy(0.5f))
-                        ) {
-                            Text(
-                                piece.label ?: "Untitled",
-                                modifier = Modifier
-                                    .padding(16.dp, 0.dp)
-                                    .fillMaxWidth()
-                                    .basicMarquee(2),
-                                fontSize = Typography.headlineSmall.fontSize
-                            )
-                        }
+                        piece.label?.let {
+                            Row(
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(0.dp, 4.dp)
+                                    .clip(RoundedCornerShape(6.dp))
+                                    .background(colorScheme.primary.copy(0.5f))
+                            ) {
+                                Text(
+                                    piece.label,
+                                    modifier = Modifier
+                                        .padding(16.dp, 0.dp)
+                                        .fillMaxWidth()
+                                        .basicMarquee(2),
+                                    fontSize = Typography.headlineSmall.fontSize
+                                )
+                            }
+                        }?: Row {}
                     }
                 }
             )
