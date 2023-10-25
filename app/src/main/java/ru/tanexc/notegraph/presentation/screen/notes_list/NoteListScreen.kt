@@ -1,15 +1,22 @@
 package ru.tanexc.notegraph.presentation.screen.notes_list
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ReportProblem
@@ -19,11 +26,19 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
@@ -32,7 +47,10 @@ import ru.tanexc.notegraph.R
 import ru.tanexc.notegraph.core.util.Action
 import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.presentation.screen.notes_list.view_model.NoteListViewModel
+import ru.tanexc.notegraph.presentation.ui.theme.Typography
+import ru.tanexc.notegraph.presentation.ui.widgets.cards.ImagePieceNoteCard
 import ru.tanexc.notegraph.presentation.ui.widgets.cards.ItemCard
+import ru.tanexc.notegraph.presentation.ui.widgets.cards.TextPieceNoteCard
 import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
 import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 
@@ -62,34 +80,84 @@ fun NoteListScreen(
                         null
                     )
                 }
+
                 else -> {}
             }
         }
     )
 
     Box(modifier.fillMaxSize()) {
-        LazyColumn(Modifier.fillMaxSize()) {
-            items(viewModel.noteList) {
-                Spacer(modifier = Modifier.size(16.dp))
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(2),
+            contentPadding = PaddingValues(12.dp),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(viewModel.noteList) { note ->
+                val textPiece = note.textPieces.getOrNull(0)
+                val imagePiece = note.imagePieces.getOrNull(0)
+
+
                 ItemCard(
                     modifier = Modifier
+                        .padding(4.dp)
                         .clip(RoundedCornerShape(16.dp))
-                        .clickable { onOpenNote(it) }
+                        .clickable { onOpenNote(note) }
                         .fillMaxWidth()
                         .wrapContentHeight(),
                     borderEnabled = LocalSettingsProvider.current.bordersEnabled,
                     borderColor = colorScheme.outline,
-                    backgroundColor = colorScheme.secondaryContainer
-                ) {
-                    Box(Modifier.padding(16.dp)) {
-                        Spacer(modifier = Modifier.size(56.dp))
-                        Text(it.label, modifier = Modifier.align(Alignment.Center))
-                        Spacer(modifier = Modifier.size(56.dp))
+                    backgroundColor = colorScheme.secondaryContainer) {
+                    Column {
+                        Column(
+                            Modifier.border(
+                                width = 1.dp,
+                                shape = RoundedCornerShape(16.dp),
+                                brush = if (LocalSettingsProvider.current.bordersEnabled) SolidColor(
+                                    colorScheme.outline.copy(0.7f)
+                                )
+                                else SolidColor(Color.Transparent)
+                            )
+                        ) {
+                            textPiece?.let {
+                                TextPieceNoteCard(
+                                    textPiece = it,
+                                    colorScheme = colorScheme
+                                )
+                            } ?: imagePiece?.let {
+                                ImagePieceNoteCard(
+                                    imagePiece = it,
+                                    colorScheme = colorScheme
+                                )
+                            } ?: Text(
+                                modifier = Modifier
+                                    .padding(16.dp, 48.dp)
+                                    .fillMaxWidth(),
+                                textAlign = TextAlign.Center,
+                                color = colorScheme.contentColorFor(colorScheme.secondaryContainer)
+                                    .copy(0.6f),
+                                text = stringResource(R.string.empty_note)
+                            )
+                        }
+
+                        if (note.label != "") {
+                            Text(
+                                text = note.label,
+                                overflow = TextOverflow.Ellipsis,
+                                textAlign = TextAlign.Center,
+                                style = Typography.headlineSmall,
+                                maxLines = 1,
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .fillMaxWidth(),
+                                color = colorScheme.contentColorFor(colorScheme.secondaryContainer)
+                            )
+                        }
                     }
                 }
             }
-        }
 
+
+        }
 
         FloatingActionButton(
             modifier = Modifier
@@ -99,6 +167,5 @@ fun NoteListScreen(
         ) {
             Icon(Icons.Outlined.Create, null)
         }
-
     }
 }

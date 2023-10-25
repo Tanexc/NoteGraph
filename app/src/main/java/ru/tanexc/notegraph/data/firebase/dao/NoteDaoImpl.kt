@@ -79,6 +79,9 @@ class NoteDaoImpl @Inject constructor(
                     .await()
                     .toObjects<ImagePieceEntity>()
                     .map { it.asDomain() }
+                    .sortedBy {
+                        (it.offset.x.times(2) + it.offset.y.times(2)).times(0.5)
+                    }
 
                 val textPieces = note
                     .document(documentId)
@@ -87,6 +90,9 @@ class NoteDaoImpl @Inject constructor(
                     .await()
                     .toObjects<TextPieceEntity>()
                     .map { it.asDomain() }
+                    .sortedBy {
+                        (it.offset.x.times(2) + it.offset.y.times(2)).times(0.5)
+                    }
 
                 this.asDomain().copy(imagePieces = imagePieces, textPieces = textPieces)
             }

@@ -3,6 +3,7 @@ package ru.tanexc.notegraph.presentation.ui.widgets.cards
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,7 +17,7 @@ fun ItemCard(
     borderEnabled: Boolean,
     borderColor: Color = Color.Transparent,
     backgroundColor: Color = Color.Transparent,
-    content: @Composable () -> Unit
+    content: @Composable BoxScope.() -> Unit
 
 ) {
     Box(

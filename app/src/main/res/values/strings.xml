@@ -33,4 +33,6 @@
     <string name="image">Image</string>
     <string name="alpha">Alpha</string>
     <string name="background">Background\n</string>
+    <string name="note_label">Label of note</string>
+    <string name="empty_note">Empty note</string>
 </resources>
