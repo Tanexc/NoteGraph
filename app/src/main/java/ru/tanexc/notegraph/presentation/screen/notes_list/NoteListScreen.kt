@@ -1,16 +1,14 @@
 package ru.tanexc.notegraph.presentation.screen.notes_list
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -21,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ReportProblem
 import androidx.compose.material.icons.outlined.Create
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -28,15 +27,17 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -52,8 +53,10 @@ import ru.tanexc.notegraph.presentation.ui.widgets.cards.ImagePieceNoteCard
 import ru.tanexc.notegraph.presentation.ui.widgets.cards.ItemCard
 import ru.tanexc.notegraph.presentation.ui.widgets.cards.TextPieceNoteCard
 import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
+import ru.tanexc.notegraph.presentation.util.animations.shakeAnimation
 import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteListScreen(
     modifier: Modifier,
@@ -66,6 +69,7 @@ fun NoteListScreen(
         amoledMode = LocalSettingsProvider.current.amoledMode,
         colorTuple = rememberDynamicThemeState().colorTuple.value
     )
+    var selectedNote: Note? by remember { mutableStateOf(null) }
 
     topAppBarState.current.updateTopAppBar(
         title = { Text(stringResource(R.string.notes)) },
@@ -83,6 +87,14 @@ fun NoteListScreen(
 
                 else -> {}
             }
+            selectedNote?.let {
+                IconButton(onClick = {
+                    viewModel.deleteNote(it)
+                    selectedNote = null
+                }) {
+                    Icon(Icons.Outlined.Delete, null)
+                }
+            }
         }
     )
 
@@ -99,9 +111,17 @@ fun NoteListScreen(
 
                 ItemCard(
                     modifier = Modifier
+                        .shakeAnimation(selectedNote == note, 700)
                         .padding(4.dp)
                         .clip(RoundedCornerShape(16.dp))
-                        .clickable { onOpenNote(note) }
+                        .combinedClickable(
+                            onClick = { onOpenNote(note) },
+                            onLongClick = {
+                                selectedNote =
+                                    if (selectedNote != note) note
+                                    else null
+                            }
+                        )
                         .fillMaxWidth()
                         .wrapContentHeight(),
                     borderEnabled = LocalSettingsProvider.current.bordersEnabled,

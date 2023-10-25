@@ -77,5 +77,24 @@ class NoteListViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteNote(note: Note) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteNoteUseCase(note).collect { action ->
+                when(action) {
+                    is Action.Success -> {
+                        _synchronizing.value = Action.Success(Unit)
+                    }
+                    is Action.Loading -> {
+                        _synchronizing.value = Action.Loading(Unit)
+                    }
+                    is Action.Error -> {
+                        _synchronizing.value = Action.Error(Unit, messsage = action.messsage)
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
 }
 
