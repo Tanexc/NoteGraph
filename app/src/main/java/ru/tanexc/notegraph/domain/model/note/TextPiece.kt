@@ -1,6 +1,7 @@
 package ru.tanexc.notegraph.domain.model.note
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
@@ -54,7 +55,7 @@ data class TextPiece(
         lineHeight = textStyle.lineHeight.value,
         letterSpacing = textStyle.letterSpacing.value,
         text = text,
-        background = background.value.toInt()
+        background = background.toArgb()
     )
 
 }

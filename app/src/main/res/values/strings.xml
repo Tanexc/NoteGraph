@@ -32,7 +32,8 @@
     <string name="height">Height</string>
     <string name="image">Image</string>
     <string name="alpha">Alpha</string>
-    <string name="background">Background\n</string>
+    <string name="background">Background</string>
     <string name="note_label">Label of note</string>
     <string name="empty_note">Empty note</string>
+    <string name="text_of_piece">Text of piece</string>
 </resources>

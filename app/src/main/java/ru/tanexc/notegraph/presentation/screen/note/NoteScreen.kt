@@ -16,14 +16,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tanexc.notegraph.core.util.Action
 import ru.tanexc.notegraph.core.util.SheetContent
 import ru.tanexc.notegraph.presentation.screen.note.view_model.NoteViewModel
 import ru.tanexc.notegraph.presentation.screen.note_field.NoteField
-import ru.tanexc.notegraph.presentation.screen.note_field.components.NoteSheetContent
+import ru.tanexc.notegraph.presentation.ui.widgets.note.NoteSheetContent
 import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 import ru.tanexc.notegraph.presentation.util.rememberBottomSheetState
 

@@ -57,8 +57,4 @@ class NoteViewModel @Inject constructor(
             }
         }
     }
-
-    infix fun openSheetContent(value: SheetContent) {
-        _sheetContent.value = value
-    }
 }

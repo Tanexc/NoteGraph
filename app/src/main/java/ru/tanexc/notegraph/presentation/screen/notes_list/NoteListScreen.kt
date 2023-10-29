@@ -129,7 +129,9 @@ fun NoteListScreen(
                     backgroundColor = colorScheme.secondaryContainer) {
                     Column {
                         Column(
-                            Modifier.border(
+                            Modifier
+                                .fillMaxWidth()
+                                .border(
                                 width = 1.dp,
                                 shape = RoundedCornerShape(16.dp),
                                 brush = if (LocalSettingsProvider.current.bordersEnabled) SolidColor(
@@ -175,8 +177,6 @@ fun NoteListScreen(
                     }
                 }
             }
-
-
         }
 
         FloatingActionButton(

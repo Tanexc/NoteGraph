@@ -17,4 +17,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "NoteGraph"
 include(":app")
- 
+include(":colorpicker")
+include(":gesture")

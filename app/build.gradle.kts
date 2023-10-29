@@ -41,7 +41,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.0"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
@@ -51,6 +51,8 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":colorpicker"))
 
     // AndroidX
     implementation("androidx.core:core-ktx:1.12.0")
@@ -117,8 +119,5 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil:2.4.0")
     implementation("io.coil-kt:coil-compose:2.4.0")
-
-    // Color picker
-    implementation("com.github.skydoves:colorpicker-compose:1.0.5")
 
 }

@@ -2,6 +2,7 @@ package ru.tanexc.notegraph.presentation.ui.widgets.cards
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ColorScheme
@@ -13,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ru.tanexc.notegraph.R
@@ -41,11 +43,24 @@ fun TextPieceNoteCard(
             maxLines = 1
         )
 
-        Text(
-            textPiece.text,
-            overflow = TextOverflow.Ellipsis,
-            style = Typography.bodySmall,
-            maxLines = 5
-        )
+        if (textPiece.text != "")
+            Text(
+                textPiece.text,
+                overflow = TextOverflow.Ellipsis,
+                style = Typography.bodySmall,
+                maxLines = 5
+            )
+
+        else
+            Text(
+                modifier = Modifier.padding(0.dp, 32.dp).fillMaxWidth(),
+                text = stringResource(R.string.text_of_piece),
+                overflow = TextOverflow.Ellipsis,
+                style = Typography.bodySmall,
+                maxLines = 5,
+                color = colorScheme.contentColorFor(colorScheme.secondaryContainer)
+                    .copy(0.3f),
+                textAlign = TextAlign.Center
+            )
     }
 }
