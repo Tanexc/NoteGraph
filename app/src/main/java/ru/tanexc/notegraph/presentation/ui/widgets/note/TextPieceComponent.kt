@@ -14,11 +14,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -57,7 +59,7 @@ fun TextPieceComponent(
                                     .fillMaxSize()
                                     .padding(0.dp, 4.dp)
                                     .clip(RoundedCornerShape(6.dp))
-                                    .background(colorScheme.primary.copy(0.5f))
+                                    .background(piece.background)
                             ) {
                                 Text(
                                     piece.label,
@@ -65,7 +67,8 @@ fun TextPieceComponent(
                                         .padding(16.dp, 0.dp)
                                         .fillMaxWidth(),
                                     fontSize = Typography.headlineSmall.fontSize,
-                                    overflow = TextOverflow.Ellipsis
+                                    overflow = TextOverflow.Ellipsis,
+                                    color = if (piece.background.luminance() < 0.5f) Color.White else Color.Black
                                 )
                             }
                         }?: Row {}
@@ -86,14 +89,15 @@ fun TextPieceComponent(
                         else this
                     }
                     .clip(RoundedCornerShape(piece.cornerRadius.dp))
-                    .background(color = if (piece.background != Color.Transparent) piece.background else defaultBackground)
+                    .background(color = if (piece.background != Color.Transparent) piece.background.copy(0.3f) else defaultBackground)
             ) {
                 Text(
                     piece.text,
                     style = piece.textStyle,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp)
+                        .padding(16.dp),
+                    color = if (piece.background.copy(0.3f).luminance() < 0.5f) Color.White else Color.Black
                 )
             }
         }
