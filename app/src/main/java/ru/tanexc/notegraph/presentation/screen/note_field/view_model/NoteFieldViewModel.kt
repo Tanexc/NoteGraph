@@ -1,7 +1,6 @@
 package ru.tanexc.notegraph.presentation.screen.note_field.view_model
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.launch
 import ru.tanexc.notegraph.core.util.Action
 import ru.tanexc.notegraph.domain.interfaces.image.ImageHelper

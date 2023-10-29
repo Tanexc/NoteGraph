@@ -12,12 +12,12 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.tanexc.notegraph.core.util.Screen
+import ru.tanexc.notegraph.domain.model.settings.Settings
+import ru.tanexc.notegraph.domain.model.user.User
 import ru.tanexc.notegraph.domain.use_cases.settings.GetSettingsAsFlowUseCase
 import ru.tanexc.notegraph.domain.use_cases.settings.GetSettingsUseCase
 import ru.tanexc.notegraph.domain.use_cases.user.GetUserAsFlowUseCase
 import ru.tanexc.notegraph.domain.use_cases.user.SignOutUserUseCase
-import ru.tanexc.notegraph.domain.model.settings.Settings
-import ru.tanexc.notegraph.domain.model.user.User
 import ru.tanexc.notegraph.domain.use_cases.user.TryGetLocalUserUseCase
 import javax.inject.Inject
 

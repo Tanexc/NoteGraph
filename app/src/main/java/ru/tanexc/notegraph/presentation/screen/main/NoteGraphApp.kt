@@ -54,12 +54,11 @@ import ru.tanexc.notegraph.R
 import ru.tanexc.notegraph.core.util.Screen
 import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.presentation.screen.auth.AuthScreen
-import ru.tanexc.notegraph.presentation.screen.notes_list.NoteListScreen
 import ru.tanexc.notegraph.presentation.screen.note.NoteScreen
+import ru.tanexc.notegraph.presentation.screen.notes_list.NoteListScreen
 import ru.tanexc.notegraph.presentation.ui.theme.NoteGraphTheme
 import ru.tanexc.notegraph.presentation.ui.theme.Typography
 import ru.tanexc.notegraph.presentation.ui.widgets.app_bars.TopAppBar
-import ru.tanexc.notegraph.presentation.util.AppBarParams
 import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
 import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 import ru.tanexc.notegraph.presentation.util.rememberBottomSheetState

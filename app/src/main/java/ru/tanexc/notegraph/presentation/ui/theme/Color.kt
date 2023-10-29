@@ -1,7 +1,6 @@
 package ru.tanexc.notegraph.presentation.ui.theme
 import androidx.compose.ui.graphics.Color
 import com.t8rin.dynamic.theme.ColorTuple
-import com.t8rin.dynamic.theme.ColorTupleItem
 
 val md_theme_light_primary = Color(0xFF974813)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)

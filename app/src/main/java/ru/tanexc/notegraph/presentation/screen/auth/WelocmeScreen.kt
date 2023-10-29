@@ -32,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tanexc.notegraph.R
-import ru.tanexc.notegraph.presentation.util.rememberAppBarState
 
 @Composable
 fun WelocmeScreen(

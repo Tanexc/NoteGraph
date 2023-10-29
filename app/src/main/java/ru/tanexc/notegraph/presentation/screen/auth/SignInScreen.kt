@@ -33,7 +33,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tanexc.notegraph.R
-import kotlin.math.sign
 
 @Composable
 fun SignInScreen(

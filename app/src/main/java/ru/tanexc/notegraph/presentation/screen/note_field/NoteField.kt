@@ -32,14 +32,14 @@ import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tanexc.notegraph.core.util.Action
 import ru.tanexc.notegraph.domain.model.note.Note
-import ru.tanexc.notegraph.presentation.ui.widgets.note.ImagePieceSheetContent
-import ru.tanexc.notegraph.presentation.ui.widgets.note.TextPieceSheetContent
 import ru.tanexc.notegraph.presentation.screen.note_field.view_model.NoteFieldViewModel
 import ru.tanexc.notegraph.presentation.ui.widgets.action_button.FabOption
 import ru.tanexc.notegraph.presentation.ui.widgets.action_button.MultipleFloatingActionButton
 import ru.tanexc.notegraph.presentation.ui.widgets.note.ExpandableField
 import ru.tanexc.notegraph.presentation.ui.widgets.note.ImagePieceComponent
+import ru.tanexc.notegraph.presentation.ui.widgets.note.ImagePieceSheetContent
 import ru.tanexc.notegraph.presentation.ui.widgets.note.TextPieceComponent
+import ru.tanexc.notegraph.presentation.ui.widgets.note.TextPieceSheetContent
 import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
 import ru.tanexc.notegraph.presentation.util.rememberBottomSheetState
 
