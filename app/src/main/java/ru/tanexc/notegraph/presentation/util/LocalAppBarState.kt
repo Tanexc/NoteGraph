@@ -55,14 +55,18 @@ val LocalAppBarState = compositionLocalOf { AppBarState() }
 
 @Composable
 fun rememberAppBarState(
-    topAppBarParams: AppBarParams = LocalAppBarState.current.params
+    title: @Composable () -> Unit = LocalAppBarState.current.params.title,
+    navigationIcon: @Composable () -> Unit = LocalAppBarState.current.params.navigationIcon,
+    actions: @Composable (RowScope.() -> Unit) = LocalAppBarState.current.params.actions,
+    visible: Boolean = LocalAppBarState.current.params.visible,
+    borderEnabled: Boolean = LocalAppBarState.current.params.borderEnabled
 ): ProvidableCompositionLocal<AppBarState> {
     LocalAppBarState.current.updateTopAppBar(
-        topAppBarParams.title,
-        topAppBarParams.navigationIcon,
-        topAppBarParams.actions,
-        topAppBarParams.visible,
-        topAppBarParams.borderEnabled
+        title,
+        navigationIcon,
+        actions,
+        visible,
+        borderEnabled
     )
     return remember { LocalAppBarState }
 }
