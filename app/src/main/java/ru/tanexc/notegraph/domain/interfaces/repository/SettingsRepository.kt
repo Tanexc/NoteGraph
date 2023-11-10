@@ -21,4 +21,6 @@ interface SettingsRepository {
 
     suspend fun updateColorTuple(value: ColorTuple)
 
+    suspend fun updateHeaderLines(value: Int)
+
 }

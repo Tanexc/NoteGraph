@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.map
 import ru.tanexc.notegraph.data.keys.Keys.AMOLED_MODE
 import ru.tanexc.notegraph.data.keys.Keys.BORDERS_ENABLED
 import ru.tanexc.notegraph.data.keys.Keys.COLOR_TUPLE
+import ru.tanexc.notegraph.data.keys.Keys.HEADER_LINES
 import ru.tanexc.notegraph.data.keys.Keys.IS_DARK_MODE
 import ru.tanexc.notegraph.data.keys.Keys.USE_DYNAMIC_COLORS
 import ru.tanexc.notegraph.domain.interfaces.repository.SettingsRepository
@@ -35,7 +36,8 @@ class SettingsRepositoryImpl @Inject constructor(
                     tertiary = colors.getOrNull(2),
                     surface = colors.getOrNull(3)
                 )
-            } ?: defaultDarkColorTuple
+            } ?: defaultDarkColorTuple,
+            headerLines = pref[HEADER_LINES] ?: 1
 
         )
     }
@@ -55,7 +57,8 @@ class SettingsRepositoryImpl @Inject constructor(
                     colors.getOrNull(2),
                     colors.getOrNull(3)
                 )
-            } ?: defaultDarkColorTuple
+            } ?: defaultDarkColorTuple,
+            headerLines = pref[HEADER_LINES] ?: 1
         )
     }
 
@@ -86,6 +89,12 @@ class SettingsRepositoryImpl @Inject constructor(
     override suspend fun updateColorTuple(value: ColorTuple) {
         dataStore.edit {
             it[COLOR_TUPLE] = "${value.primary} ${value.secondary} ${value.tertiary} ${value.surface}"
+        }
+    }
+
+    override suspend fun updateHeaderLines(value: Int) {
+        dataStore.edit {
+            it[HEADER_LINES] = value
         }
     }
 
