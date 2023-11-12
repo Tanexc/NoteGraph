@@ -76,11 +76,11 @@ dependencies {
     implementation("androidx.compose.material:material:1.5.4")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     // Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.48")
+    implementation("com.google.dagger:hilt-android:2.48.1")
     implementation("com.google.firebase:firebase-database-ktx:20.3.0")
     ksp("com.google.dagger:hilt-android-compiler:2.48")
 
@@ -102,11 +102,11 @@ dependencies {
     implementation("com.github.chihsuanwu:compose-free-scroll:0.2.1")
 
     // ComposeShadowPlus
-    implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.2")
+    implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.4")
 
     // Navigation
-    implementation("dev.olshevski.navigation:reimagined:1.3.1")
-    implementation("dev.olshevski.navigation:reimagined-hilt:1.3.1")
+    implementation("dev.olshevski.navigation:reimagined:1.5.0")
+    implementation("dev.olshevski.navigation:reimagined-hilt:1.5.0")
 
     // Accompanist
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
@@ -117,7 +117,16 @@ dependencies {
     implementation("com.google.accompanist:accompanist-adaptive:0.29.1-alpha")
 
     // Coil
-    implementation("io.coil-kt:coil:2.4.0")
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+    // Zoom
+    implementation("com.github.SmartToolFactory:Compose-Zoom:0.5.0")
+
+    // Gestures
+    implementation("com.github.SmartToolFactory:Compose-Extended-Gestures:3.1")
+
+    // Sliders
+    implementation("com.github.SmartToolFactory:Compose-Colorful-Sliders:1.2.2")
 
 }
