@@ -6,6 +6,7 @@ import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.getAppColorTuple
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
+import ru.tanexc.notegraph.presentation.util.HeadlineOverflowBehaviour
 
 data class Settings(
     val amoledMode: Boolean,
@@ -13,7 +14,7 @@ data class Settings(
     val useDynamicColor: Boolean,
     val bordersEnabled: Boolean,
     val colorTuple: ColorTuple,
-    val headerLines: Int
+    val headlineOverflowBehaviour: HeadlineOverflowBehaviour
 ) {
 
     companion object {
@@ -23,7 +24,7 @@ data class Settings(
             bordersEnabled = true,
             useDynamicColor = false,
             colorTuple = ColorTuple(Color.Unspecified),
-            headerLines = 1
+            headlineOverflowBehaviour = HeadlineOverflowBehaviour.ELLIPSIS
         )
     }
 

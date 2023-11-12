@@ -4,6 +4,7 @@ package ru.tanexc.notegraph.domain.interfaces.repository
 import com.t8rin.dynamic.theme.ColorTuple
 import kotlinx.coroutines.flow.Flow
 import ru.tanexc.notegraph.domain.model.settings.Settings
+import ru.tanexc.notegraph.presentation.util.HeadlineOverflowBehaviour
 
 interface SettingsRepository {
 
@@ -21,6 +22,5 @@ interface SettingsRepository {
 
     suspend fun updateColorTuple(value: ColorTuple)
 
-    suspend fun updateHeaderLines(value: Int)
-
+    suspend fun updateHeadlineOverflowBehaviour(value: HeadlineOverflowBehaviour)
 }

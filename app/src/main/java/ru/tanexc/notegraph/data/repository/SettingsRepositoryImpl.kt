@@ -11,12 +11,13 @@ import kotlinx.coroutines.flow.map
 import ru.tanexc.notegraph.data.keys.Keys.AMOLED_MODE
 import ru.tanexc.notegraph.data.keys.Keys.BORDERS_ENABLED
 import ru.tanexc.notegraph.data.keys.Keys.COLOR_TUPLE
-import ru.tanexc.notegraph.data.keys.Keys.HEADER_LINES
 import ru.tanexc.notegraph.data.keys.Keys.IS_DARK_MODE
+import ru.tanexc.notegraph.data.keys.Keys.OVERFLOW_BEHAVIOUR
 import ru.tanexc.notegraph.data.keys.Keys.USE_DYNAMIC_COLORS
 import ru.tanexc.notegraph.domain.interfaces.repository.SettingsRepository
 import ru.tanexc.notegraph.domain.model.settings.Settings
 import ru.tanexc.notegraph.presentation.ui.theme.defaultDarkColorTuple
+import ru.tanexc.notegraph.presentation.util.HeadlineOverflowBehaviour
 import javax.inject.Inject
 
 class SettingsRepositoryImpl @Inject constructor(
@@ -37,7 +38,11 @@ class SettingsRepositoryImpl @Inject constructor(
                     surface = colors.getOrNull(3)
                 )
             } ?: defaultDarkColorTuple,
-            headerLines = pref[HEADER_LINES] ?: 1
+            headlineOverflowBehaviour = when (pref[OVERFLOW_BEHAVIOUR]) {
+                1 -> HeadlineOverflowBehaviour.MARQUEE
+                2 -> HeadlineOverflowBehaviour.IGNORE
+                else -> HeadlineOverflowBehaviour.ELLIPSIS
+            }
 
         )
     }
@@ -58,7 +63,11 @@ class SettingsRepositoryImpl @Inject constructor(
                     colors.getOrNull(3)
                 )
             } ?: defaultDarkColorTuple,
-            headerLines = pref[HEADER_LINES] ?: 1
+            headlineOverflowBehaviour = when (pref[OVERFLOW_BEHAVIOUR]) {
+                1 -> HeadlineOverflowBehaviour.MARQUEE
+                2 -> HeadlineOverflowBehaviour.IGNORE
+                else -> HeadlineOverflowBehaviour.ELLIPSIS
+            }
         )
     }
 
@@ -92,9 +101,13 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateHeaderLines(value: Int) {
+    override suspend fun updateHeadlineOverflowBehaviour(value: HeadlineOverflowBehaviour) {
         dataStore.edit {
-            it[HEADER_LINES] = value
+            it[OVERFLOW_BEHAVIOUR] = when (value) {
+                HeadlineOverflowBehaviour.ELLIPSIS -> 0
+                HeadlineOverflowBehaviour.MARQUEE -> 1
+                HeadlineOverflowBehaviour.IGNORE -> 2
+            }
         }
     }
 

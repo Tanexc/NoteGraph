@@ -6,14 +6,13 @@ import com.t8rin.dynamic.theme.ColorTuple
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ru.tanexc.notegraph.domain.use_cases.settings.GetSettingsAsFlowUseCase
-import ru.tanexc.notegraph.domain.use_cases.settings.GetSettingsUseCase
-import ru.tanexc.notegraph.domain.use_cases.settings.UpdateHeaderLinesUseCase
+import ru.tanexc.notegraph.domain.use_cases.settings.UpdateHeadlineOverflowBehaviourUseCase
 import ru.tanexc.notegraph.domain.use_cases.settings.UpdateSettingsAmoledModeUseCase
 import ru.tanexc.notegraph.domain.use_cases.settings.UpdateSettingsBordersEnabledUseCase
 import ru.tanexc.notegraph.domain.use_cases.settings.UpdateSettingsColorTupleUseCase
 import ru.tanexc.notegraph.domain.use_cases.settings.UpdateSettingsIsDarkModeUseCase
 import ru.tanexc.notegraph.domain.use_cases.settings.UpdateUseDynamicColorsUseCase
+import ru.tanexc.notegraph.presentation.util.HeadlineOverflowBehaviour
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +22,7 @@ class SettingsViewModel @Inject constructor(
     private val updateSettingsIsDarkModeUseCase: UpdateSettingsIsDarkModeUseCase,
     private val updateSettingsBordersEnabledUseCase: UpdateSettingsBordersEnabledUseCase,
     private val updateSettingsColorTupleUseCase: UpdateSettingsColorTupleUseCase,
-    private val updateHeaderLinesUseCase: UpdateHeaderLinesUseCase
+    private val updateHeadlineOverflowBehaviourUseCase: UpdateHeadlineOverflowBehaviourUseCase
 ): ViewModel() {
 
     fun updateAmoledMode(enabled: Boolean) {
@@ -52,6 +51,12 @@ class SettingsViewModel @Inject constructor(
     fun updateColorTuple(colors: ColorTuple) {
         viewModelScope.launch(Dispatchers.IO) {
             updateSettingsColorTupleUseCase(colors)
+        }
+    }
+
+    fun updateOverflowBehaviour(value: HeadlineOverflowBehaviour) {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateHeadlineOverflowBehaviourUseCase(value)
         }
     }
 
