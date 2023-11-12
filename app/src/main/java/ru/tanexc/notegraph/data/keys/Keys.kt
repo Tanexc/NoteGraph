@@ -10,7 +10,7 @@ object Keys {
     val BORDERS_ENABLED = booleanPreferencesKey("borders_enabled")
     val USE_DYNAMIC_COLORS = booleanPreferencesKey("use_dynamic_colors")
     val COLOR_TUPLE = stringPreferencesKey("color_tuple")
-    val HEADER_LINES = intPreferencesKey("header_lines")
+    val OVERFLOW_BEHAVIOUR = intPreferencesKey("overflow_behaviour")
 
     val LOCAL_USER_ID = stringPreferencesKey("local_user_id")
 }

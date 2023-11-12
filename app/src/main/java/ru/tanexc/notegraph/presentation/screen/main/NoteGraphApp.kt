@@ -29,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -56,6 +57,7 @@ import ru.tanexc.notegraph.domain.model.note.Note
 import ru.tanexc.notegraph.presentation.screen.auth.AuthScreen
 import ru.tanexc.notegraph.presentation.screen.note.NoteScreen
 import ru.tanexc.notegraph.presentation.screen.notes_list.NoteListScreen
+import ru.tanexc.notegraph.presentation.screen.settings.SettingsScreen
 import ru.tanexc.notegraph.presentation.ui.theme.NoteGraphTheme
 import ru.tanexc.notegraph.presentation.ui.theme.Typography
 import ru.tanexc.notegraph.presentation.ui.widgets.app_bars.TopAppBar
@@ -73,13 +75,11 @@ fun NoteGraphApp(
         rememberNavController(startDestination = viewModel.currentScreen)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val topAppBarState = rememberAppBarState()
     val bottomSheetState = rememberBottomSheetState().current
-    val colorScheme = rememberColorScheme(
-        isDarkTheme = LocalSettingsProvider.current.isDarkMode,
-        amoledMode = LocalSettingsProvider.current.amoledMode,
-        colorTuple = rememberDynamicThemeState().colorTuple.value,
-    )
+
+    val settings = LocalSettingsProvider.current
+    val colorScheme = settings.getColorScheme()
+    val topAppBarState = rememberAppBarState(borderEnabled = settings.bordersEnabled)
 
     var selectedNote: Note? by remember { mutableStateOf(null) }
 
@@ -178,8 +178,10 @@ fun NoteGraphApp(
                                     IconButton(onClick = { scope.launch { drawerState.open() } }) {
                                         Icon(Icons.Outlined.Menu, null)
                                     }
-                                }
+                                },
+                                actions = {}
                             )
+                            SettingsScreen(Modifier.padding(innerPaddings))
                         }
 
                         Screen.Note -> {
@@ -189,7 +191,8 @@ fun NoteGraphApp(
                                         IconButton(onClick = { scope.launch { viewModel.updateCurrentScreen(Screen.NoteList) } }) {
                                             Icon(Icons.AutoMirrored.Outlined.ArrowBack, null)
                                         }
-                                    }
+                                    },
+                                    borderEnabled = settings.bordersEnabled
                                 )
                                 NoteScreen(
                                     modifier = Modifier
@@ -210,6 +213,7 @@ fun NoteGraphApp(
             exit = slideOutVertically { it }
         ) {
             ModalBottomSheet(
+                sheetState = rememberModalBottomSheetState(true),
                 onDismissRequest = { bottomSheetState.disable() },
                 content = bottomSheetState.content
             )

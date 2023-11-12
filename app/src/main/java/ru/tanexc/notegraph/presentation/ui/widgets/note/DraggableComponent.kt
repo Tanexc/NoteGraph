@@ -17,6 +17,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun DraggableComponent(
+    modifier: Modifier,
     startOffset: IntOffset,
     enabled: Boolean = true,
     onOffsetChange: ((IntOffset) -> Unit)? = null,
@@ -25,23 +26,26 @@ fun DraggableComponent(
 ) {
     var offset: IntOffset by remember { mutableStateOf(startOffset) }
     Column(
-        modifier =
-        if (enabled) Modifier
+        modifier = Modifier
             .offset { offset }
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragEnd = { onRelease(offset) }
-                ) { change, dragAmount ->
-                    change.consume()
-                    val offsetChange =
-                        IntOffset(dragAmount.x.roundToInt(), dragAmount.y.roundToInt())
-                    if ((offset + offsetChange).x > 0 && (offset + offsetChange).y > 0) {
-                        offset += offsetChange
-                        onOffsetChange?.let { it(offset) }
+            .run {
+                if (enabled) {
+                    this.pointerInput(Unit) {
+                        detectDragGestures(
+                            onDragEnd = { onRelease(offset) }
+                        ) { change, dragAmount ->
+                            change.consume()
+                            val offsetChange =
+                                IntOffset(dragAmount.x.roundToInt(), dragAmount.y.roundToInt())
+                            if ((offset + offsetChange).x > 0 && (offset + offsetChange).y > 0) {
+                                offset += offsetChange
+                                onOffsetChange?.let { it(offset) }
+                            }
+                        }
                     }
-                }
-            }
-        else Modifier.offset { offset }
+                } else this
+            }.then(modifier)
+
     ) {
         Box(
             content = { content(enabled) }

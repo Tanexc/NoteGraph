@@ -3,6 +3,7 @@ package ru.tanexc.notegraph.presentation.screen.note_field.view_model
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -39,6 +40,7 @@ class NoteFieldViewModel @Inject constructor(
 
     private val _note: MutableState<Note?> = mutableStateOf(null)
     val note: Note? by _note
+
 
     fun initializeNote(value: Note) {
         _note.value = value

@@ -33,7 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.smarttoolfactory.slider.ColorfulSlider
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tanexc.notegraph.R
 import ru.tanexc.notegraph.presentation.screen.settings.view_model.SettingsViewModel
@@ -43,6 +42,7 @@ import ru.tanexc.notegraph.presentation.ui.shapes.middlePreferenceShape
 import ru.tanexc.notegraph.presentation.ui.theme.Typography
 import ru.tanexc.notegraph.presentation.ui.widgets.cards.PreferenceCard
 import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
+import ru.tanexc.notegraph.presentation.util.HeadlineOverflowBehaviour.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -167,28 +167,30 @@ fun SettingsScreen(
                 )
 
                 Column {
+                    Spacer(modifier = Modifier.size(8.dp))
                     Text(
                         stringResource(R.string.text_overflow),
                         modifier = Modifier
                             .align(CenterHorizontally)
                     )
+                    Spacer(modifier = Modifier.size(8.dp))
                     SingleChoiceSegmentedButtonRow {
                         SegmentedButton(
-                            selected = true,
-                            onClick = {  },
+                            selected = settings.headlineOverflowBehaviour == ELLIPSIS,
+                            onClick = { viewModel.updateOverflowBehaviour(ELLIPSIS) },
                             shape = RoundedCornerShape(50, 0, 0, 50),
                             label = { Text(stringResource(id = R.string.ellipsis)) },
                         )
                         SegmentedButton(
-                            selected = true,
-                            onClick = {  },
+                            selected = settings.headlineOverflowBehaviour == MARQUEE,
+                            onClick = { viewModel.updateOverflowBehaviour(MARQUEE) },
                             shape = RoundedCornerShape(0, 0, 0, 0),
                             label = { Text(stringResource(id = R.string.marquee)) }
                         )
                         SegmentedButton(
-                            selected = true,
-                            onClick = {  },
-                            shape = RoundedCornerShape(50, 0, 0, 50),
+                            selected = settings.headlineOverflowBehaviour == IGNORE,
+                            onClick = { viewModel.updateOverflowBehaviour(IGNORE) },
+                            shape = RoundedCornerShape(0, 50, 50, 0),
                             label = { Text(stringResource(id = R.string.ignore)) },
                         )
                     }

@@ -82,21 +82,20 @@ fun NoteGraphTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme() || LocalSettingsProvider.current.isDarkMode,
     content: @Composable () -> Unit
 ) {
-
     val settings = LocalSettingsProvider.current
 
     DynamicTheme(
         state = rememberDynamicThemeState(
             getAppColorTuple(
                 defaultColorTuple = settings.colorTuple,
-                dynamicColor = dynamicColor,
-                darkTheme = useDarkTheme,
+                dynamicColor = settings.useDynamicColor,
+                darkTheme = settings.isDarkMode,
             )
         ),
         defaultColorTuple = settings.colorTuple,
-        isDarkTheme = useDarkTheme,
-        dynamicColor = dynamicColor,
-        amoledMode = amoledMode
+        isDarkTheme = settings.isDarkMode,
+        dynamicColor = settings.useDynamicColor,
+        amoledMode = settings.amoledMode
     ) {
         content()
     }

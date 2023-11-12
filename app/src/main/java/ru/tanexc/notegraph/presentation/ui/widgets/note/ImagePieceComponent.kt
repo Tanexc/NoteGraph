@@ -34,16 +34,17 @@ fun ImagePieceComponent(
     focused: Boolean,
     piece: ImagePiece,
     actions: (@Composable (RowScope.() -> Unit))?,
-    colorScheme: ColorScheme
-
+    colorScheme: ColorScheme,
+    initialOffset: IntOffset
 ) {
 
     DraggableComponent(
-        startOffset = piece.offset,
+        modifier = modifier.width(piece.size.width.dp),
+        startOffset = initialOffset,
         enabled = focused,
         onRelease = onOffsetChange
     ) {
-        Column(modifier.width(piece.size.width.dp)) {
+        Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier

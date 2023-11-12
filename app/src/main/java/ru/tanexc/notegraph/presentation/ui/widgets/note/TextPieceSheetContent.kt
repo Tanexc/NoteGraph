@@ -1,7 +1,6 @@
 package ru.tanexc.notegraph.presentation.ui.widgets.note
 
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
@@ -72,11 +70,9 @@ fun TextPieceSheetContent(
         onValueChanged(piece)
     }
 
-
     LazyColumn(
         Modifier
-            .fillMaxSize()
-            .padding(WindowInsets.ime.asPaddingValues()),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
@@ -253,7 +249,6 @@ fun TextPieceSheetContent(
                 initialColor = backgroundColor,
                 colorScheme = colorScheme,
                 onValueChanged = { color ->
-                    Log.i("CUM", "${color.toArgb()}, wwf")
                     backgroundColor = color
                     piece = piece.copy(background = backgroundColor)
                     onValueChanged(piece)

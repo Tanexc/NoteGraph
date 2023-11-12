@@ -36,4 +36,21 @@
     <string name="note_label">Label of note</string>
     <string name="empty_note">Empty note</string>
     <string name="text_of_piece">Text of piece</string>
+    <string name="theme">Theme</string>
+    <string name="dynamic_theme">Dynamic theme</string>
+    <string name="amoled_mode">Amoled mode</string>
+    <string name="style">Style</string>
+    <string name="outline">Use borders</string>
+    <string name="profile">Profile</string>
+    <string name="delete_profile">Delete profile</string>
+    <string name="change_password">Change password</string>
+    <string name="delete_notes">Delete all notes</string>
+    <string name="update_photo">Update photo</string>
+    <string name="about_app">About app</string>
+    <string name="use_dark_mode">Use dark theme</string>
+    <string name="dynamic_colors">Dynamic colors</string>
+    <string name="text_overflow">Text overflow behaviour</string>
+    <string name="ellipsis">Ellipsis</string>
+    <string name="marquee">Marquee</string>
+    <string name="ignore">Ignore</string>
 </resources>

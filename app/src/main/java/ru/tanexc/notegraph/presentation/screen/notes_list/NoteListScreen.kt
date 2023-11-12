@@ -1,6 +1,7 @@
 package ru.tanexc.notegraph.presentation.screen.notes_list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
@@ -50,6 +51,7 @@ import ru.tanexc.notegraph.presentation.ui.theme.Typography
 import ru.tanexc.notegraph.presentation.ui.widgets.cards.ImagePieceNoteCard
 import ru.tanexc.notegraph.presentation.ui.widgets.cards.ItemCard
 import ru.tanexc.notegraph.presentation.ui.widgets.cards.TextPieceNoteCard
+import ru.tanexc.notegraph.presentation.util.HeadlineOverflowBehaviour.*
 import ru.tanexc.notegraph.presentation.util.LocalSettingsProvider
 import ru.tanexc.notegraph.presentation.util.animations.shakeAnimation
 import ru.tanexc.notegraph.presentation.util.rememberAppBarState
@@ -62,12 +64,14 @@ fun NoteListScreen(
 ) {
     val viewModel: NoteListViewModel = hiltViewModel()
     val topAppBarState = rememberAppBarState()
+    val settings = LocalSettingsProvider.current
     val colorScheme = rememberColorScheme(
-        isDarkTheme = LocalSettingsProvider.current.isDarkMode,
-        amoledMode = LocalSettingsProvider.current.amoledMode,
+        isDarkTheme = settings.isDarkMode,
+        amoledMode = settings.amoledMode,
         colorTuple = rememberDynamicThemeState().colorTuple.value
     )
     var selectedNote: Note? by remember { mutableStateOf(null) }
+
 
     topAppBarState.current.updateTopAppBar(
         title = { Text(stringResource(R.string.notes)) },
@@ -130,13 +134,13 @@ fun NoteListScreen(
                             Modifier
                                 .fillMaxWidth()
                                 .border(
-                                width = 1.dp,
-                                shape = RoundedCornerShape(16.dp),
-                                brush = if (LocalSettingsProvider.current.bordersEnabled) SolidColor(
-                                    colorScheme.outline.copy(0.7f)
+                                    width = 1.dp,
+                                    shape = RoundedCornerShape(16.dp),
+                                    brush = if (LocalSettingsProvider.current.bordersEnabled) SolidColor(
+                                        colorScheme.outline.copy(0.7f)
+                                    )
+                                    else SolidColor(Color.Transparent)
                                 )
-                                else SolidColor(Color.Transparent)
-                            )
                         ) {
                             textPiece?.let {
                                 TextPieceNoteCard(
@@ -162,13 +166,23 @@ fun NoteListScreen(
                         if (note.label != "") {
                             Text(
                                 text = note.label,
-                                overflow = TextOverflow.Ellipsis,
+                                overflow = when (settings.headlineOverflowBehaviour) {
+                                    MARQUEE -> TextOverflow.Visible
+                                    else -> TextOverflow.Ellipsis
+                                },
                                 textAlign = TextAlign.Center,
                                 style = Typography.headlineSmall,
-                                maxLines = 1,
+                                maxLines = when (settings.headlineOverflowBehaviour) {
+                                    IGNORE -> 3
+                                    else -> 1
+                                },
                                 modifier = Modifier
                                     .padding(8.dp)
-                                    .fillMaxWidth(),
+                                    .fillMaxWidth()
+                                    .run {
+                                        if (settings.headlineOverflowBehaviour == MARQUEE) this.basicMarquee()
+                                        else this
+                                    },
                                 color = colorScheme.contentColorFor(colorScheme.secondaryContainer)
                             )
                         }

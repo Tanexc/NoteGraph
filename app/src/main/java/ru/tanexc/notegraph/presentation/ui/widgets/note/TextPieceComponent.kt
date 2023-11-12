@@ -34,14 +34,16 @@ fun TextPieceComponent(
     piece: TextPiece,
     colorScheme: ColorScheme,
     defaultBackground: Color,
-    actions: (@Composable (RowScope.() -> Unit))?
+    actions: (@Composable (RowScope.() -> Unit))?,
+    initialOffset: IntOffset
 ) {
     DraggableComponent(
-        startOffset = piece.offset,
+        modifier = modifier.width(piece.size.width.dp),
+        startOffset = initialOffset,
         enabled = focused,
         onRelease = onOffsetChange
     ) {
-        Column(modifier.width(piece.size.width.dp)) {
+        Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -76,7 +78,7 @@ fun TextPieceComponent(
             )
 
             Box(
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .height(piece.size.height.dp)
                     .run {

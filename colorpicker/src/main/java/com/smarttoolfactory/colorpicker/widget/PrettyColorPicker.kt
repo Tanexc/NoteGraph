@@ -1,6 +1,5 @@
 package com.smarttoolfactory.colorpicker.widget
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -25,15 +24,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colorpicker.selector.SelectorRectSaturationLightnessHSL
-import com.smarttoolfactory.colorpicker.slider.PrettySliderAlphaHSL
-import com.smarttoolfactory.colorpicker.slider.PrettySliderHueHSL
+import com.smarttoolfactory.colorpicker.slider.SliderAlphaHSL
+import com.smarttoolfactory.colorpicker.slider.SliderHueHSL
 import com.smarttoolfactory.extendedcolors.util.ColorUtil
 
 @OptIn(ExperimentalStdlibApi::class)
@@ -108,27 +106,21 @@ fun PrettyColorPicker(
                 lightness = l
             }
 
-            PrettySliderHueHSL(
+            SliderHueHSL(
                 hue = hue,
                 saturation = saturation,
                 lightness = lightness,
                 onValueChange = { value ->
                     hue = value
-                },
-                borderColor = currentColor,
-                thumbColor = colorScheme.secondaryContainer,
-                borderStroke = BorderStroke(1.dp, SolidColor(colorScheme.outline.copy(0.6f)))
+                }
             )
 
-            PrettySliderAlphaHSL(
+            SliderAlphaHSL(
                 hue = hue,
                 alpha = alpha,
                 onValueChange = {value ->
                     alpha = value
-                },
-                borderColor = currentColor,
-                thumbColor = colorScheme.secondaryContainer,
-                borderStroke = BorderStroke(1.dp, SolidColor(colorScheme.outline.copy(0.6f)))
+                }
             )
         }
 
